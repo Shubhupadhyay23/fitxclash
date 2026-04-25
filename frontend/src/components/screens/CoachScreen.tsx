@@ -243,12 +243,13 @@ export function CoachScreen() {
 
       {/* AI Assistant Toggle Button */}
       <div className="fixed bottom-24 right-4 z-[90]">
-        <Button
+        <button
           onClick={() => setShowAIChat(!showAIChat)}
-          className="rounded-full w-14 h-14 bg-cyan-600 hover:bg-cyan-500 text-black shadow-xl shadow-cyan-500/20"
+          className="rounded-full w-14 h-14 bg-cyan-600 hover:bg-cyan-500 text-black shadow-xl shadow-cyan-500/20 flex items-center justify-center transition-colors"
+          style={{ cursor: 'pointer', border: 'none' }}
         >
           <Bot size={28} />
-        </Button>
+        </button>
       </div>
 
       {showAIChat && <AIChatAssistant onClose={() => setShowAIChat(false)} />}

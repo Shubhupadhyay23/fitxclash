@@ -1,15 +1,13 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { LiveBattleCard } from "../LiveBattleCard";
 import { AnimatedTitle } from "../AnimatedTitle";
-import { ShimmerButton, ShimmerCard } from "../ShimmerComponents";
 import { ElectricButton } from "../ElectricButton";
 import { CVDetector } from "../../../cv/services/cv-detector";
 import { PUSHUP_FORM_RULES } from "../../../cv/exercises/pushup-params";
 import { SQUAT_FORM_RULES } from "../../../cv/exercises/squat-params";
 import { PLANK_FORM_RULES } from "../../../cv/exercises/plank-params";
 import { LUNGE_FORM_RULES } from "../../../cv/exercises/lunge-params";
-import { getCurrentUser } from "../../services/auth";
 
 type ExerciseType = "push-up" | "squat" | "plank" | "lunge";
 
@@ -59,10 +57,9 @@ export function SoloBattleScreen() {
   const detectorRef = useRef<CVDetector | null>(null);
   
   // Game state
-  const [userReps, setUserReps] = useState(0);
-  const [opponentReps, setOpponentReps] = useState(0);
+  const [userMetric, setUserMetric] = useState(0);
+  const [opponentMetric, setOpponentMetric] = useState(0);
   const [opponentName] = useState<string>("ForgeBot AI");
-  const [isCVReady, setIsCVReady] = useState(false);
   const [selectedExercise, setSelectedExercise] = useState<ExerciseType | null>(null);
   const [showExerciseSelection, setShowExerciseSelection] = useState(true);
   const [showRoundEnd, setShowRoundEnd] = useState(false);
@@ -85,24 +82,26 @@ export function SoloBattleScreen() {
       
       try {
         const rules = EXERCISE_OPTIONS.find(e => e.id === selectedExercise)?.formRules;
-        detectorRef.current = new CVDetector(videoRef.current, canvasRef.current, rules);
+        detectorRef.current = new CVDetector();
+        await detectorRef.current.initialize(videoRef.current, canvasRef.current);
         
-        detectorRef.current.onRepDetected = () => {
-          setUserReps(prev => prev + 1);
-        };
+        detectorRef.current.setFormRules(rules || {}, selectedExercise);
+        detectorRef.current.setRepCallback((count) => {
+          setUserMetric(count);
+        });
 
-        detectorRef.current.onReadyStateChange = (ready) => {
-          setIsCVReady(ready);
-        };
-
-        await detectorRef.current.start();
+        detectorRef.current.startDetection();
       } catch (err) {
         console.error("CV Start Error:", err);
       }
     };
 
     startCV();
-    return () => detectorRef.current?.stop();
+    return () => {
+      if (detectorRef.current) {
+        detectorRef.current.stopDetection();
+      }
+    };
   }, [selectedExercise, gamePhase]);
 
   // AI Opponent Simulation Logic
@@ -111,7 +110,7 @@ export function SoloBattleScreen() {
 
     // AI does 1 rep every 2-5 seconds
     const aiInterval = setInterval(() => {
-      setOpponentReps(prev => prev + 1);
+      setOpponentMetric(prev => prev + 1);
     }, 2000 + Math.random() * 3000);
 
     return () => clearInterval(aiInterval);
@@ -154,10 +153,10 @@ export function SoloBattleScreen() {
 
   const handleRoundEnd = () => {
     let winner = "tie";
-    if (userReps > opponentReps) {
+    if (userMetric > opponentMetric) {
       winner = "user";
       setUserRoundsWon(prev => prev + 1);
-    } else if (opponentReps > userReps) {
+    } else if (opponentMetric > userMetric) {
       winner = "opponent";
       setOpponentRoundsWon(prev => prev + 1);
     }
@@ -167,11 +166,12 @@ export function SoloBattleScreen() {
     setShowRoundEnd(true);
 
     setTimeout(() => {
-      if (currentRound >= 3 || userRoundsWon >= 1 || opponentRoundsWon >= 1) { // Quick end for demo or 3 rounds
-         if (currentRound >= 3 || (userRoundsWon + (winner === 'user' ? 1 : 0)) >= 2 || (opponentRoundsWon + (winner === 'opponent' ? 1 : 0)) >= 2) {
-            setShowGameOver(true);
-            return;
-         }
+      const nextUserWins = userRoundsWon + (winner === 'user' ? 1 : 0);
+      const nextOpponentWins = opponentRoundsWon + (winner === 'opponent' ? 1 : 0);
+      
+      if (currentRound >= 3 || nextUserWins >= 2 || nextOpponentWins >= 2) {
+        setShowGameOver(true);
+        return;
       }
       
       // Next Round Prepare
@@ -180,10 +180,11 @@ export function SoloBattleScreen() {
       setSelectedExercise(null);
       setShowExerciseSelection(true);
       setGamePhase("ready");
-      setUserReps(0);
-      setOpponentReps(0);
+      setUserMetric(0);
+      setOpponentMetric(0);
       setTimeRemaining(60);
       setStartCountdown(5);
+      setUserReady(false);
     }, 5000);
   };
 
@@ -215,17 +216,29 @@ export function SoloBattleScreen() {
     );
   }
 
+  const liveBattleState = gamePhase === "live" ? "live" : (gamePhase === "ended" ? "ended_time" : "countdown");
+
   return (
     <div className="flex flex-col min-h-screen bg-black text-white p-4">
-      <AnimatedTitle title="SOLO TRAINING" subtitle={`ROUND ${currentRound} VS AI`} />
-      
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-cyan-400">
+           <AnimatedTitle text="SOLO TRAINING" />
+        </h1>
+        <p className="text-sm opacity-60">ROUND {currentRound} VS FORGEBOT</p>
+      </div>
+
       <div className="flex-1 flex flex-col items-center justify-center relative">
+        <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
+           <video ref={videoRef} className="w-full h-full object-cover hidden" playsInline muted />
+           <canvas ref={canvasRef} className="w-full h-full object-contain" />
+        </div>
+
         {showExerciseSelection && (
-          <Card className="bg-neutral-900/90 border-cyan-500/50 p-8 max-w-2xl w-full z-50">
-            <CardHeader>
-              <CardTitle className="text-xl text-cyan-400 uppercase tracking-widest text-center">Select Your Training Exercise</CardTitle>
-            </CardHeader>
-            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <div className="rounded-xl border bg-neutral-900/90 border-cyan-500/50 p-8 max-w-2xl w-full z-50">
+            <div className="p-4 border-b">
+              <h3 className="text-xl text-cyan-400 uppercase tracking-widest text-center font-semibold">Select Your Training Exercise</h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 p-4">
               {EXERCISE_OPTIONS.map(opt => (
                 <div 
                   key={opt.id}
@@ -236,27 +249,30 @@ export function SoloBattleScreen() {
                   <p className="text-xs text-neutral-400">{opt.description}</p>
                 </div>
               ))}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         )}
 
         {selectedExercise && !showRoundEnd && (
-          <LiveBattleCard 
-            videoRef={videoRef}
-            canvasRef={canvasRef}
-            userReps={userReps}
-            opponentReps={opponentReps}
-            opponentName={opponentName}
-            timeRemaining={timeRemaining}
-            exerciseName={EXERCISE_OPTIONS.find(e => e.id === selectedExercise)?.name || ""}
-            isLive={gamePhase === "live"}
-            startCountdown={startCountdown}
-            gamePhase={gamePhase}
-            isUserReady={userReady}
-            isOpponentReady={true}
-            onUserReady={handleUserReady}
-            isPlank={selectedExercise === "plank"}
-          />
+          <div className="z-10 w-full max-w-3xl">
+            {!userReady && gamePhase === "ready" && (
+                <div className="text-center mb-8">
+                    <ElectricButton onClick={handleUserReady}>
+                        I'm Ready!
+                    </ElectricButton>
+                </div>
+            )}
+            <LiveBattleCard 
+                mode={selectedExercise === "plank" ? "hold" : "reps"}
+                state={liveBattleState}
+                durationSeconds={60}
+                countdownRemaining={startCountdown}
+                timeRemaining={timeRemaining}
+                userMetric={userMetric}
+                opponentMetric={opponentMetric}
+                opponentName={opponentName}
+            />
+          </div>
         )}
 
         {showRoundEnd && (
@@ -268,12 +284,12 @@ export function SoloBattleScreen() {
             <div className="mt-8 flex justify-center gap-12">
                <div>
                  <p className="text-xs uppercase text-neutral-500">You</p>
-                 <p className="text-3xl font-bold">{userReps}</p>
+                 <p className="text-3xl font-bold">{userMetric}</p>
                </div>
                <div className="text-cyan-600 text-3xl font-bold">VS</div>
                <div>
                  <p className="text-xs uppercase text-neutral-500">AI</p>
-                 <p className="text-3xl font-bold">{opponentReps}</p>
+                 <p className="text-3xl font-bold">{opponentMetric}</p>
                </div>
             </div>
           </div>
@@ -281,17 +297,4 @@ export function SoloBattleScreen() {
       </div>
     </div>
   );
-}
-
-function Card({ children, className, ...props }: any) {
-  return <div className={`rounded-xl border ${className}`} {...props}>{children}</div>;
-}
-function CardHeader({ children, className }: any) {
-  return <div className={`p-4 border-b ${className}`}>{children}</div>;
-}
-function CardContent({ children, className }: any) {
-  return <div className={`p-4 ${className}`}>{children}</div>;
-}
-function CardTitle({ children, className }: any) {
-  return <h3 className={`font-semibold ${className}`}>{children}</h3>;
 }

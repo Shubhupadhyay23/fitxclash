@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Sparkles, Dumbbell, Target, ChevronRight } from 'lucide-react';
@@ -87,7 +87,7 @@ export function RecommendationScreen() {
                 <CardTitle className="text-2xl text-cyan-400">{plan.plan_name}</CardTitle>
                 <p className="text-xs text-neutral-500 mt-1 uppercase tracking-widest">Tailored for {level} • Goal: {goal}</p>
               </div>
-              <Button variant="ghost" onClick={() => setPlan(null)} className="text-xs text-neutral-400">Restart</Button>
+              <Button variant="outline" onClick={() => setPlan(null)} className="text-xs text-neutral-400">Restart</Button>
             </CardHeader>
             <CardContent className="pt-6">
               <div className="space-y-4">

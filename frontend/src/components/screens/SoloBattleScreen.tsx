@@ -73,18 +73,56 @@ export function SoloBattleScreen() {
   const [roundWinner, setRoundWinner] = useState<string | null>(null);
   const [showGameOver, setShowGameOver] = useState(false);
 
+  // Warm up CV detector
+  useEffect(() => {
+    CVDetector.warmUp();
+  }, []);
+
   // Initialize CV
   useEffect(() => {
     if (!selectedExercise || gamePhase !== "ready") return;
+
+    let isCancelled = false;
 
     const startCV = async () => {
       if (!videoRef.current || !canvasRef.current) return;
       
       try {
         const rules = EXERCISE_OPTIONS.find(e => e.id === selectedExercise)?.formRules;
+        
+        // Setup camera
+        const stream = await navigator.mediaDevices.getUserMedia({ 
+            video: { width: 640, height: 480 } 
+        });
+        
+        if (isCancelled) {
+          stream.getTracks().forEach(t => t.stop());
+          return;
+        }
+
+        videoRef.current.srcObject = stream;
+        
+        // Wait for video to be ready
+        await Promise.race([
+          new Promise((resolve) => {
+            if (videoRef.current) {
+              if (videoRef.current.readyState >= 2) resolve(void 0);
+              else videoRef.current.onloadedmetadata = () => resolve(void 0);
+            }
+          }),
+          new Promise((_, reject) => setTimeout(() => reject(new Error("Video timeout")), 8000))
+        ]);
+
+        if (isCancelled) return;
+
         detectorRef.current = new CVDetector();
         await detectorRef.current.initialize(videoRef.current, canvasRef.current);
         
+        if (isCancelled) {
+          detectorRef.current.stopDetection();
+          return;
+        }
+
         detectorRef.current.setFormRules(rules || {}, selectedExercise);
         detectorRef.current.setRepCallback((count) => {
           setUserMetric(count);
@@ -92,14 +130,20 @@ export function SoloBattleScreen() {
 
         detectorRef.current.startDetection();
       } catch (err) {
-        console.error("CV Start Error:", err);
+        console.error("Solo CV Start Error:", err);
       }
     };
 
     startCV();
     return () => {
+      isCancelled = true;
       if (detectorRef.current) {
         detectorRef.current.stopDetection();
+        detectorRef.current = null;
+      }
+      if (videoRef.current?.srcObject) {
+        const stream = videoRef.current.srcObject as MediaStream;
+        stream.getTracks().forEach(track => track.stop());
       }
     };
   }, [selectedExercise, gamePhase]);

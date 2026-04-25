@@ -51,7 +51,7 @@ export const useCVDetector = ({
         console.log("Video readyState:", video.readyState);
         console.log("Video dimensions:", video.videoWidth, "x", video.videoHeight);
         
-        // Ensure video is ready (has metadata and dimensions)
+        // Wait for video to be ready (has metadata and dimensions)
         const waitForVideoReady = async () => {
           // Wait for metadata
           if (video.readyState < 2) {
@@ -60,7 +60,7 @@ export const useCVDetector = ({
               const timeout = setTimeout(() => {
                 video.removeEventListener('loadedmetadata', handleLoadedMetadata);
                 reject(new Error("Timeout waiting for video metadata"));
-              }, 5000);
+              }, 8000);
               
               const handleLoadedMetadata = () => {
                 clearTimeout(timeout);
@@ -72,6 +72,8 @@ export const useCVDetector = ({
             });
           }
           
+          if (cancelled) return;
+
           // Wait for video to have valid dimensions (with timeout)
           let attempts = 0;
           const maxAttempts = 30; // 3 seconds max
@@ -80,19 +82,11 @@ export const useCVDetector = ({
             if (cancelled) return;
             await new Promise(resolve => setTimeout(resolve, 100));
             attempts++;
-            if (attempts % 5 === 0) {
-              console.log(`⏳ Still waiting... (${attempts}/${maxAttempts})`);
-            }
           }
           
           if (cancelled) return;
           
           console.log("✅ Video dimensions:", video.videoWidth, "x", video.videoHeight);
-          
-          if (!video.videoWidth || !video.videoHeight || video.videoWidth <= 0 || video.videoHeight <= 0) {
-            console.warn("⚠️ Video dimensions not available, proceeding anyway. videoWidth:", video.videoWidth, "videoHeight:", video.videoHeight);
-            // Don't throw - try to initialize anyway with default dimensions
-          }
         };
 
         await waitForVideoReady();

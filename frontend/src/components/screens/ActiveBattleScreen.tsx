@@ -1056,12 +1056,20 @@ export function ActiveBattleScreen() {
     }
   }, []);
 
+  // Warm up CV detector on mount
+  useEffect(() => {
+    CVDetector.warmUp();
+  }, []);
+
   // Initialize CV detector (only when exercise is selected)
   useEffect(() => {
     if (!videoRef.current || !canvasRef.current || !gameId || !selectedExercise) return;
 
+    let isCancelled = false;
+
     const initCV = async () => {
       try {
+        console.log("🎥 Requesting webcam access...");
         // Request webcam access with mobile-friendly constraints
         const stream = await navigator.mediaDevices.getUserMedia({
           video: {
@@ -1071,24 +1079,39 @@ export function ActiveBattleScreen() {
           },
         });
         
+        if (isCancelled) {
+          stream.getTracks().forEach(t => t.stop());
+          return;
+        }
+
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
           
-          // Wait for video to be ready
-          await new Promise((resolve) => {
-            if (videoRef.current) {
-              videoRef.current.onloadedmetadata = () => {
-                resolve(void 0);
-              };
-            }
-          });
+          // Wait for video to be ready with timeout
+          console.log("⏳ Waiting for video metadata...");
+          await Promise.race([
+            new Promise((resolve) => {
+              if (videoRef.current) {
+                if (videoRef.current.readyState >= 2) {
+                  resolve(void 0);
+                } else {
+                  videoRef.current.onloadedmetadata = () => resolve(void 0);
+                }
+              }
+            }),
+            new Promise((_, reject) => setTimeout(() => reject(new Error("Video initialization timeout")), 8000))
+          ]);
+
+          if (isCancelled) return;
 
           // Initialize CV detector
+          console.log("🤖 Initializing CV detector stage...");
           const detector = new CVDetector();
-          if (canvasRef.current) {
-            await detector.initialize(videoRef.current, canvasRef.current);
-          } else {
-            await detector.initialize(videoRef.current);
+          await detector.initialize(videoRef.current, canvasRef.current);
+          
+          if (isCancelled) {
+            detector.stopDetection();
+            return;
           }
           
           // Set form rules based on selected exercise
@@ -1186,6 +1209,7 @@ export function ActiveBattleScreen() {
 
     // Cleanup
     return () => {
+      isCancelled = true;
       if (detectorRef.current) {
         detectorRef.current.stopDetection();
         detectorRef.current = null;

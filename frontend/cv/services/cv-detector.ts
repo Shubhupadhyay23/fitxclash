@@ -27,47 +27,61 @@ import { validateSquatForm, calculateKneeAngle, getHipYPosition, getKneeYPositio
 import { checkBodyLine, checkPlankBreakage, checkInitialSetup, checkSideView as checkPlankSideView, checkKneeBend as _checkKneeBend, checkPlankInitialSetup, checkKneeCollapse } from "../exercises/plank-params";
 
 export class CVDetector {
+  private static sharedPoseLandmarker: PoseLandmarker | null = null;
+  private static initPromise: Promise<PoseLandmarker> | null = null;
   private poseLandmarker: PoseLandmarker | null = null;
   private videoElement: HTMLVideoElement | null = null;
   private canvasElement: HTMLCanvasElement | null = null;
   private drawingUtils: DrawingUtils | null = null;
   private animationFrameId: number | null = null;
   
-  // Rep detection state
-  private repState: RepDetectionState = {
-    repCount: 0,
-    isDown: false,
-    lastAngle: 0,
-  };
-  
-  // Stability tracking for squat detection (to prevent false reps from jittery landmarks)
-  private hipPositionHistory: number[] = []; // Track last N hip positions
-  private lastRepTime: number = 0; // Timestamp of last rep to prevent rapid false counts
-  private bottomReachedTime: number = 0; // Timestamp when bottom was reached (to ensure we've been at bottom before coming up)
-  private readonly STABILITY_HISTORY_SIZE = 5; // Number of frames to track for stability
-  private readonly MIN_REP_INTERVAL_MS = 1000; // Minimum time between reps (1 second)
-  private readonly MAX_HIP_MOVEMENT_PER_FRAME = 0.05; // Max hip movement per frame (5% of frame) to detect jitter
-  private readonly MIN_BOTTOM_TIME_MS = 200; // Minimum time at bottom before allowing "coming up" detection (200ms)
-  
-  // Static hold state
-  private holdState: StaticHoldState = {
-    isStable: false,
-    duration: 0,
-    startTime: null,
-  };
-  
-  // Form rules
-  private formRules: FormRules = {};
-  private currentExercise: string = "";
-  
-  // Callbacks
-  private onRepDetected: RepDetectedCallback | null = null;
-  private onFormError: FormErrorCallback | null = null;
-  private onDetectionUpdate: DetectionUpdateCallback | null = null;
-  
-  // Configuration
-  private stabilityThreshold: number = 0.1;
-  private isDetecting: boolean = false;
+  /**
+   * Pre-warm the shared PoseLandmarker to speed up first use
+   */
+  static async warmUp(): Promise<void> {
+    try {
+      console.log("🔥 Warming up shared PoseLandmarker...");
+      await this.getSharedLandmarker();
+      console.log("✅ Shared PoseLandmarker warmed up");
+    } catch (error) {
+      console.error("❌ Failed to warm up PoseLandmarker:", error);
+    }
+  }
+
+  private static async getSharedLandmarker(): Promise<PoseLandmarker> {
+    if (this.sharedPoseLandmarker) {
+      return this.sharedPoseLandmarker;
+    }
+
+    if (this.initPromise) {
+      return this.initPromise;
+    }
+
+    this.initPromise = (async () => {
+      console.log("🤖 Loading MediaPipe vision assets...");
+      const vision = await FilesetResolver.forVisionTasks(
+        "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm"
+      );
+
+      // Detect if we're on mobile and use CPU delegate for better compatibility
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const useGPU = !isMobile; // Use GPU on desktop, CPU on mobile for better compatibility
+      
+      console.log(`🤖 Creating PoseLandmarker (Delegate: ${useGPU ? "GPU" : "CPU"})...`);
+      this.sharedPoseLandmarker = await PoseLandmarker.createFromOptions(vision, {
+        baseOptions: {
+          modelAssetPath: `https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task`,
+          delegate: useGPU ? "GPU" : "CPU",
+        },
+        runningMode: "VIDEO",
+        numPoses: 1,
+      });
+      console.log("✅ MediaPipe assets loaded successfully");
+      return this.sharedPoseLandmarker;
+    })();
+
+    return this.initPromise;
+  }
 
   /**
    * Initialize the CV detector with video and canvas elements
@@ -81,22 +95,8 @@ export class CVDetector {
     this.videoElement = video;
     this.canvasElement = canvas || null;
 
-    const vision = await FilesetResolver.forVisionTasks(
-      "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm"
-    );
-
-    // Detect if we're on mobile and use CPU delegate for better compatibility
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    const useGPU = !isMobile; // Use GPU on desktop, CPU on mobile for better compatibility
-    
-    this.poseLandmarker = await PoseLandmarker.createFromOptions(vision, {
-      baseOptions: {
-        modelAssetPath: `https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task`,
-        delegate: useGPU ? "GPU" : "CPU",
-      },
-      runningMode: "VIDEO",
-      numPoses: 1,
-    });
+    console.log("🎥 Initializing CV detector with shared landmarker...");
+    this.poseLandmarker = await CVDetector.getSharedLandmarker();
 
     if (this.canvasElement) {
       this.drawingUtils = new DrawingUtils(this.canvasElement.getContext("2d")!);

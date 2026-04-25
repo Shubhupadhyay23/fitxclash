@@ -1,6 +1,6 @@
 import "./index.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { VantaBackground } from "./components/VantaBackground";
 import { CyanLoadingDots } from "./components/CyanLoadingDots";
@@ -64,7 +64,14 @@ const LoadingFallback = () => (
   </div>
 );
 
+import { CVDetector } from "../cv/services/cv-detector";
+
 function App() {
+  // Pre-warm CV models globally on app start
+  useEffect(() => {
+    CVDetector.warmUp();
+  }, []);
+
   return (
     <ErrorBoundary>
       <BrowserRouter>

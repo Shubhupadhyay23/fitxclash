@@ -72,29 +72,61 @@ export function CoachScreen() {
     }
   };
 
+  // Warm up CV detector
+  useEffect(() => {
+    CVDetector.warmUp();
+  }, []);
+
   // Initialize CV when active
   useEffect(() => {
     if (!isActive || !selectedExercise) return;
+
+    let isCancelled = false;
 
     const startCV = async () => {
         if (!videoRef.current || !canvasRef.current) return;
         
         try {
+            console.log("🎥 Starting Coach CV session...");
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                throw new Error("Your browser does not support camera access.");
+            }
+
             // Get webcam stream
+            console.log("🎥 Requesting camera stream...");
             const stream = await navigator.mediaDevices.getUserMedia({ 
                 video: { width: 640, height: 480 } 
             });
+            
+            if (isCancelled) {
+              stream.getTracks().forEach(t => t.stop());
+              return;
+            }
+
             videoRef.current.srcObject = stream;
             
-            // Wait for video to be ready
-            await new Promise((resolve) => {
-                if (videoRef.current) videoRef.current.onloadedmetadata = resolve;
-            });
+            // Wait for video to be ready with timeout
+            await Promise.race([
+              new Promise((resolve) => {
+                if (videoRef.current) {
+                  if (videoRef.current.readyState >= 2) resolve(void 0);
+                  else videoRef.current.onloadedmetadata = resolve;
+                }
+              }),
+              new Promise((_, reject) => setTimeout(() => reject(new Error("Video timeout")), 8000))
+            ]);
+
+            if (isCancelled) return;
 
             const exercise = exercises.find(e => e.id === selectedExercise);
             detectorRef.current = new CVDetector();
             await detectorRef.current.initialize(videoRef.current, canvasRef.current);
             
+            if (isCancelled) {
+              detectorRef.current.stopDetection();
+              return;
+            }
+
             detectorRef.current.setFormRules(exercise?.formRules || {}, selectedExercise);
             detectorRef.current.setRepCallback((count) => {
                 setReps(count);
@@ -118,15 +150,18 @@ export function CoachScreen() {
             setIsCameraReady(true);
         } catch (err) {
             console.error("Coach CV Error:", err);
-            setFormFeedback("Camera Error: Please check permissions.");
+            const errorMessage = err instanceof Error ? err.message : "Camera Error: Please check permissions.";
+            setFormFeedback(errorMessage);
         }
     };
 
     startCV();
     
     return () => {
+        isCancelled = true;
         if (detectorRef.current) {
             detectorRef.current.stopDetection();
+            detectorRef.current = null;
         }
         if (videoRef.current?.srcObject) {
             const stream = videoRef.current.srcObject as MediaStream;

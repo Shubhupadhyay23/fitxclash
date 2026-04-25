@@ -21,4 +21,15 @@ export default defineConfig({
     },
     preserveSymlinks: false,
   },
+  build: {
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'firebase-vendor': ['firebase/app', 'firebase/auth'],
+          'ui-vendor': ['lucide-react', 'recharts'],
+        },
+      },
+    },
+  },
 });

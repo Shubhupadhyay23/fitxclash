@@ -9,7 +9,16 @@ import logging
 app = FastAPI(
     title=settings.api_title,
     version=settings.api_version,
+    redirect_slashes=False, # Prevent method-changing redirects that cause 405s
 )
+
+# Request logging middleware
+@app.middleware("http")
+async def log_requests(request, call_next):
+    logger.info(f"🚀 INCOMING: {request.method} {request.url.path}")
+    response = await call_next(request)
+    logger.info(f"✅ OUTGOING: {request.method} {request.url.path} - Status: {response.status_code}")
+    return response
 
 # CORS middleware
 app.add_middleware(

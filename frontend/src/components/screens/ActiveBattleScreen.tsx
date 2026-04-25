@@ -154,10 +154,10 @@ export function ActiveBattleScreen() {
       try {
         const user = await getCurrentUser();
         if (user?.id) {
-          console.log(`✅ Player ID set: ${user.id}`);
+          console.log(`✅ Player ID set successfully: ${user.id}`);
           setPlayerId(user.id);
         } else {
-          console.warn("⚠️ getCurrentUser() returned no ID");
+          console.log("ℹ️ getCurrentUser() returned no ID yet");
         }
       } catch (error) {
         console.error("Failed to get current user:", error);
@@ -169,7 +169,7 @@ export function ActiveBattleScreen() {
           if (firebaseUser) {
             // Try to match Firebase UID with player IDs in game state
             // This is a workaround for CORS issues
-            console.warn("Using fallback method to determine player ID");
+            console.log("ℹ️ Using fallback method to determine player ID");
           }
         }
       }

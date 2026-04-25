@@ -133,7 +133,7 @@ export function useMatchmaking(
       console.log("✅ Loading set to true, error cleared");
 
       if (!playerIdRef.current) {
-        console.warn("⚠️ No player ID, fetching user...");
+        console.log("ℹ️ No player ID yet, fetching current user...");
         // Try to get user ID again
         try {
           const user = await getCurrentUser();

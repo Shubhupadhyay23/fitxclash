@@ -64,7 +64,7 @@ export interface AuthResponse {
 async function getIdToken(): Promise<string | null> {
   console.log("🔑 getIdToken() called");
   if (!auth) {
-    console.warn("⚠️ Firebase auth not initialized, checking localStorage...");
+    console.log("ℹ️ Firebase auth not initialized, checking localStorage...");
     // Fallback to localStorage token if auth not initialized
     const token = localStorage.getItem("auth_token");
     if (token) {
@@ -76,7 +76,7 @@ async function getIdToken(): Promise<string | null> {
   }
   const user = auth.currentUser;
   if (!user) {
-    console.warn("⚠️ No current Firebase user, checking localStorage...");
+    console.log("ℹ️ No current Firebase user, checking localStorage...");
     // Fallback to localStorage token if no current user
     const token = localStorage.getItem("auth_token");
     if (token) {

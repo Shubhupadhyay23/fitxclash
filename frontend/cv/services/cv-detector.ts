@@ -166,6 +166,11 @@ export class CVDetector {
         return;
       }
 
+      // Explicitly set width/height attributes if they differ from videoWidth/videoHeight
+      // This helps MediaPipe's internal landmark projection calculators
+      if (this.videoElement.width !== videoWidth) this.videoElement.width = videoWidth;
+      if (this.videoElement.height !== videoHeight) this.videoElement.height = videoHeight;
+
       const canvasCtx = this.canvasElement?.getContext("2d");
       if (canvasCtx && this.canvasElement) {
         // Set canvas size to match video

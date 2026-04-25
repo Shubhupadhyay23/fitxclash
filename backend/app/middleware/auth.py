@@ -52,15 +52,16 @@ async def verify_firebase_token(
     Verify Firebase ID token and return decoded token.
     Returns None if auth is disabled (development mode without Firebase).
     """
-    # If Firebase not configured and in development, allow bypass
-    if not firebase_app and settings.environment == "development":
-        logger.debug("Firebase not configured - bypassing auth in development")
+    # If Firebase not configured, check if we allow bypass (useful for demos/local testing)
+    if not firebase_app and (settings.environment.lower() == "development" or settings.allow_auth_bypass):
+        logger.debug(f"Firebase not configured - bypassing auth (Environment: {settings.environment}, Bypass: {settings.allow_auth_bypass})")
         return None
     
     if not firebase_app:
+        logger.error(f"❌ Authentication service not configured (Environment: {settings.environment})")
         raise HTTPException(
             status_code=503,
-            detail="Authentication service not configured"
+            detail=f"Authentication service not configured (Environment: {settings.environment})"
         )
     
     # Get token from Authorization header or Bearer token

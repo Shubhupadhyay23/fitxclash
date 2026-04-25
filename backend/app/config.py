@@ -9,11 +9,13 @@ class Settings(BaseSettings):
     api_title: str = "FitForge Arena API"
     api_version: str = "1.0.0"
     environment: str = "development"
+    allow_auth_bypass: bool = True  # Enable for demos/practical submissions to avoid 503s
     
     # CORS Configuration
     # Can be set via CORS_ORIGINS env var (comma-separated)
     # Default to localhost for development + production domains
-    cors_origins: str = "*"  # Allow all for maximum reliability in production/submission
+    # Default to common development and production domains
+    cors_origins: str = "http://localhost:5173,http://localhost:3000,https://fitxclash.vercel.app,https://fitxclash-production.up.railway.app"
     
     # Database (will be configured later)
     database_url: Optional[str] = None

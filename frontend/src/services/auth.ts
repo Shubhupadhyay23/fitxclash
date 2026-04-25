@@ -63,24 +63,28 @@ export interface AuthResponse {
  */
 async function getIdToken(): Promise<string | null> {
   console.log("🔑 getIdToken() called");
-  // Mock token generator helper
-  const getMockToken = () => {
-    const existing = localStorage.getItem("auth_token");
-    if (existing) return existing;
-    const fresh = `mock-token-${Math.random().toString(36).substring(2, 11)}-${Date.now()}`;
-    localStorage.setItem("auth_token", fresh);
-    console.log("✅ Generated fresh mock token for demo mode");
-    return fresh;
-  };
-
   if (!auth) {
     console.log("ℹ️ Firebase auth not initialized, checking localStorage...");
-    return getMockToken();
+    // Fallback to localStorage token if auth not initialized
+    const token = localStorage.getItem("auth_token");
+    if (token) {
+      console.log("✅ Found token in localStorage (auth not initialized)");
+      return token;
+    }
+    console.error("❌ No token found in localStorage and auth not initialized");
+    return null;
   }
   const user = auth.currentUser;
   if (!user) {
     console.log("ℹ️ No current Firebase user, checking localStorage...");
-    return getMockToken();
+    // Fallback to localStorage token if no current user
+    const token = localStorage.getItem("auth_token");
+    if (token) {
+      console.log("✅ Found token in localStorage (no current user)");
+      return token;
+    }
+    console.error("❌ No token found in localStorage and no current user");
+    return null;
   }
   try {
     console.log("✅ Getting fresh token from Firebase user");
@@ -89,7 +93,14 @@ async function getIdToken(): Promise<string | null> {
     return token;
   } catch (error: any) {
     console.error("❌ Failed to get token from Firebase user:", error);
-    return getMockToken();
+    // If getting token fails, try localStorage
+    const token = localStorage.getItem("auth_token");
+    if (token) {
+      console.log("✅ Fallback: Found token in localStorage");
+      return token;
+    }
+    console.error("❌ No token found anywhere");
+    return null;
   }
 }
 

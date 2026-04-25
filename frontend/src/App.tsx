@@ -36,6 +36,11 @@ const SoloBattleScreen = lazy(() =>
     default: module.SoloBattleScreen,
   }))
 );
+const DebugScreen = lazy(() =>
+  import("./components/screens/DebugScreen").then((module) => ({
+    default: module.DebugScreen,
+  }))
+);
 
 // Protected Route component
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -150,6 +155,16 @@ function App() {
                   </Suspense>
                 </VantaBackground>
               </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/app/debug"
+            element={
+              <VantaBackground>
+                <Suspense fallback={<LoadingFallback />}>
+                  <DebugScreen />
+                </Suspense>
+              </VantaBackground>
             }
           />
           <Route path="/" element={<Navigate to="/login" replace />} />

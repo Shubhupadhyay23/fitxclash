@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { ShimmerButton, ShimmerCard } from "../ShimmerComponents";
+import { ShimmerButton } from "../ShimmerComponents";
 import { AIChatAssistant } from "../AI/AIChatAssistant";
 import { Bot, Camera, XCircle, Info, CheckCircle2 } from "lucide-react";
 import { CVDetector } from "../../../cv/services/cv-detector";
@@ -64,6 +64,12 @@ export function CoachScreen() {
     setIsActive(false);
     setSelectedExercise(null);
     setIsCameraReady(false);
+    
+    // Stop all video tracks
+    if (videoRef.current?.srcObject) {
+      const stream = videoRef.current.srcObject as MediaStream;
+      stream.getTracks().forEach(track => track.stop());
+    }
   };
 
   // Initialize CV when active
@@ -101,11 +107,10 @@ export function CoachScreen() {
                 setFormValid(false);
             });
 
-            // Set update callback for real-time form meter
             detectorRef.current.setDetectionUpdateCallback((result) => {
                 setFormValid(result.formValid);
-                if (result.formValid) {
-                  setFormFeedback("Perfect form! Proceed.");
+                if (result.formValid && result.landmarks) {
+                  // Keep showing positive message
                 }
             });
 
@@ -124,8 +129,8 @@ export function CoachScreen() {
             detectorRef.current.stopDetection();
         }
         if (videoRef.current?.srcObject) {
-            const tracks = (videoRef.current.srcObject as MediaStream).getTracks();
-            tracks.forEach(t => t.stop());
+            const stream = videoRef.current.srcObject as MediaStream;
+            stream.getTracks().forEach(track => track.stop());
         }
     };
   }, [isActive, selectedExercise]);
@@ -133,7 +138,7 @@ export function CoachScreen() {
   if (isActive && selectedExercise) {
     const exercise = exercises.find((e) => e.id === selectedExercise);
     return (
-      <div className="fixed inset-0 z-[100] bg-slate-950 flex flex-col font-sans">
+      <div className="fixed inset-0 z-[100] bg-slate-950 flex flex-col font-sans text-white">
         {/* Top Header */}
         <div className="p-6 flex justify-between items-center border-b border-cyan-500/20 bg-black/40 backdrop-blur-md">
           <div className="flex items-center gap-4">
@@ -156,7 +161,7 @@ export function CoachScreen() {
           {/* Main Visual Arena */}
           <div className="relative rounded-[32px] bg-neutral-900 border border-white/10 overflow-hidden shadow-2xl flex items-center justify-center">
              {!isCameraReady ? (
-               <div className="text-center animate-pulse">
+               <div className="text-center animate-pulse z-10">
                   <Camera className="w-16 h-16 text-cyan-500/40 mx-auto mb-4" />
                   <p className="text-neutral-500 audiowide-regular">Syncing Optical Sensors...</p>
                </div>
@@ -164,21 +169,21 @@ export function CoachScreen() {
              
              <video 
                 ref={videoRef} 
-                className={`w-full h-full object-cover transform scale-x-[-1] ${isCameraReady ? 'opacity-100' : 'opacity-0'}`} 
+                className={`w-full h-full object-cover transform scale-x-[-1] absolute inset-0 ${isCameraReady ? 'opacity-100' : 'opacity-0'}`} 
                 autoPlay 
                 playsInline 
                 muted 
              />
              <canvas 
                 ref={canvasRef} 
-                className="absolute inset-0 w-full h-full object-contain pointer-events-none transform scale-x-[-1]" 
+                className="absolute inset-0 w-full h-full object-contain pointer-events-none transform scale-x-[-1] z-10" 
              />
 
              {/* Form Alert Overlay */}
              {!formValid && isCameraReady && (
-                <div className="absolute top-8 left-1/2 -translate-x-1/2 px-6 py-3 bg-red-600/90 text-white rounded-full flex items-center gap-3 animate-bounce shadow-xl backdrop-blur-sm">
-                   <XCircle size={20} />
-                   <span className="font-bold uppercase text-xs tracking-widest">{formFeedback}</span>
+                <div className="absolute top-8 left-1/2 -translate-x-1/2 z-50 px-6 py-3 bg-red-600/90 text-white rounded-full flex items-center gap-3 animate-bounce shadow-xl backdrop-blur-sm border border-red-400">
+                   <XCircle size={18} />
+                   <span className="font-bold uppercase text-[11px] tracking-widest">{formFeedback}</span>
                 </div>
              )}
           </div>
@@ -188,37 +193,33 @@ export function CoachScreen() {
              {/* Feedback Card */}
              <div className="bg-neutral-900/80 border border-white/5 rounded-3xl p-6 backdrop-blur-xl">
                 <div className="flex items-center gap-2 mb-4 text-cyan-400">
-                   <Info size={18} />
-                   <h4 className="text-xs uppercase tracking-[0.2em] font-bold">Coach Analysis</h4>
+                   <Info size={16} />
+                   <h4 className="text-[10px] uppercase tracking-[0.2em] font-bold">Coach Analysis</h4>
                 </div>
                 <div className={`p-4 rounded-2xl transition-colors ${formValid ? 'bg-cyan-500/10 border border-cyan-500/20' : 'bg-red-500/10 border border-red-500/20'}`}>
-                   <p className={`text-sm font-medium ${formValid ? 'text-white' : 'text-red-400'}`}>
+                   <p className={`text-sm font-medium leading-relaxed ${formValid ? 'text-white' : 'text-red-400'}`}>
                       {formFeedback}
                    </p>
                 </div>
              </div>
 
-             {/* Progress Progress */}
+             {/* Intensity Bars */}
              <div className="bg-neutral-900/80 border border-white/5 rounded-3xl p-6 backdrop-blur-xl">
-                <h4 className="text-xs uppercase tracking-[0.2em] font-bold text-neutral-500 mb-6">Intensity Level</h4>
-                <div className="relative h-48 w-full flex items-end justify-between gap-2 px-2">
+                <h4 className="text-[10px] uppercase tracking-[0.2em] font-bold text-neutral-500 mb-6">Intensity Level</h4>
+                <div className="relative h-40 w-full flex items-end justify-between gap-1.5 px-2">
                    {[40, 70, 90, 60, 80, 100, 70].map((h, i) => (
                       <div 
                         key={i} 
-                        className="w-full bg-gradient-to-t from-cyan-600 to-cyan-400 rounded-t-lg transition-all duration-500"
-                        style={{ height: isActive ? `${h}%` : '10%' }}
+                        className="flex-1 bg-gradient-to-t from-cyan-600 to-cyan-400 rounded-t-lg transition-all duration-700"
+                        style={{ height: isActive && isCameraReady ? `${h}%` : '10%' }}
                       />
                    ))}
-                </div>
-                <div className="mt-4 flex justify-between text-[10px] text-neutral-500 uppercase tracking-widest">
-                   <span>Power</span>
-                   <span>Endurance</span>
                 </div>
              </div>
 
              <div className="bg-cyan-500/5 border border-cyan-500/10 rounded-3xl p-6 mt-auto">
-                <p className="text-[11px] leading-relaxed text-neutral-400 italic">
-                   "ForgeBot is tracking your joints in 3D space to ensure maximum safety and hypertrophy."
+                <p className="text-[10px] leading-relaxed text-neutral-500 italic">
+                   "ForgeBot is currently tracking 33 pose landmarks to ensure muscle activation."
                 </p>
              </div>
           </div>
@@ -228,7 +229,7 @@ export function CoachScreen() {
         <div className="p-6 flex justify-center bg-black/60 border-t border-white/5">
            <button
             onClick={handleEnd}
-            className="px-10 py-4 rounded-2xl bg-red-600 hover:bg-red-500 text-white font-bold uppercase tracking-[0.2em] text-xs transition-all shadow-xl shadow-red-600/20 active:scale-95"
+            className="px-10 py-3 rounded-2xl bg-red-600 hover:bg-red-500 text-white font-bold uppercase tracking-[0.2em] text-[10px] transition-all shadow-xl shadow-red-600/20 active:scale-95"
            >
             End Training
            </button>
@@ -238,12 +239,12 @@ export function CoachScreen() {
   }
 
   return (
-    <div className="p-8 max-w-[1400px] mx-auto text-white">
+    <div className="p-8 max-w-[1400px] mx-auto text-white pb-32">
       <div className="mb-12">
         <h1 className="text-4xl audiowide-regular text-cyan-400 mb-3 flex items-center gap-4">
           <Bot size={36} className="text-cyan-400" />
           <span className="flex items-center gap-3">
-             AI COACHING <span className="text-xs bg-cyan-500/20 px-3 py-1 rounded-full text-cyan-300 animate-pulse uppercase tracking-[0.3em]">Neural Active</span>
+             AI COACHING <span className="text-[10px] bg-cyan-500/20 px-3 py-1 rounded-full text-cyan-300 animate-pulse uppercase tracking-[0.3em]">Neural Active</span>
           </span>
         </h1>
         <p className="text-neutral-400 text-lg max-w-2xl leading-relaxed">
@@ -252,7 +253,7 @@ export function CoachScreen() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {exercises.map((exercise, index) => (
+        {exercises.map((exercise) => (
           <div
             key={exercise.id}
             className="group relative bg-neutral-900/40 border border-white/10 p-8 rounded-[40px] hover:border-cyan-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-500/10 hover:-translate-y-2 backdrop-blur-xl"
@@ -268,7 +269,6 @@ export function CoachScreen() {
             </p>
             <ShimmerButton 
               className="w-full h-14 rounded-2xl font-bold text-sm uppercase tracking-widest"
-              variant="default"
               onClick={() => handleStart(exercise.id)}
             >
               Start Session
@@ -281,7 +281,7 @@ export function CoachScreen() {
       <div className="fixed bottom-24 right-8 z-[90]">
         <button
           onClick={() => setShowAIChat(!showAIChat)}
-          className="w-16 h-16 rounded-[24px] bg-gradient-to-tr from-cyan-600 to-cyan-400 flex items-center justify-center text-black shadow-2xl shadow-cyan-500/30 hover:scale-110 active:scale-95 transition-all"
+          className="w-16 h-16 rounded-[24px] bg-gradient-to-tr from-cyan-600 to-cyan-400 flex items-center justify-center text-black shadow-2xl shadow-cyan-500/30 hover:scale-110 active:scale-95 transition-all outline-none border-none cursor-pointer"
         >
           <Bot size={32} />
         </button>

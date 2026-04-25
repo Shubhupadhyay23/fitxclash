@@ -777,7 +777,7 @@ export function ActiveBattleScreen() {
     }
     
     setWhoseTurnToChoose(nextChooser);
-    console.log(`🎯 Next round (${nextRound}) chooser: Player ${nextChooser}`);
+    console.log(`🎯 Next round (${nextRound}) chooser: Player ${nextChooser} (My ID: ${playerId})`);
     
     // If nothing was done in this round, skip the round end screen and go directly to next round
     if (nothingDone) {

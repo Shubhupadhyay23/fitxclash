@@ -5,9 +5,12 @@ from app.models import GameSession, Exercise
 from app.services.game_logic import handle_rep_increment, handle_round_end, start_next_round
 from app.services.connection_manager import ConnectionManager
 from app.services.llm_service import llm_service
+import logging
 import json
 
-router = APIRouter()
+logger = logging.getLogger(__name__)
+
+router = APIRouter(prefix="/api/game", tags=["game"])
 
 
 # Global connection manager instance

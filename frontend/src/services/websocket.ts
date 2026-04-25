@@ -84,7 +84,7 @@ export class GameWebSocket {
    */
   connect(): Promise<void> {
     return new Promise((resolve, reject) => {
-      const url = `${WS_BASE_URL}/ws/${this.gameId}?player_id=${this.playerId}`;
+      const url = `${WS_BASE_URL}/api/game/ws/${this.gameId}?player_id=${this.playerId}`;
       
       try {
         this.ws = new WebSocket(url);

@@ -93,16 +93,29 @@ async def verify_firebase_token(
 
 async def get_current_user(
     token_data: Optional[dict] = Depends(verify_firebase_token),
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
 ) -> Optional[dict]:
     """
     Get current user from Firebase token.
-    Returns user data or None if auth is bypassed.
+    Returns user data or a unique mock user if auth is bypassed.
     """
     if token_data is None:
-        # Development mode - return mock user
+        # Auth is bypassed - generate a mock UID based on the token provided (even if it's not a real JWT)
+        # This allows multiple "fake" users to have unique IDs for matchmaking
+        mock_uid = "dev_user_123"
+        mock_email = "dev@example.com"
+        
+        if credentials and credentials.credentials:
+            # Use a hash of the token as the UID so different sessions get different IDs
+            import hashlib
+            token_hash = hashlib.md5(credentials.credentials.encode()).hexdigest()[:12]
+            mock_uid = f"mock_{token_hash}"
+            mock_email = f"{mock_uid}@example.com"
+            logger.info(f"Generated mock UID from token: {mock_uid}")
+        
         return {
-            "uid": "dev_user_123",
-            "email": "dev@example.com",
+            "uid": mock_uid,
+            "email": mock_email,
         }
     
     return {

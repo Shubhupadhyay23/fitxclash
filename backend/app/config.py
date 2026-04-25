@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     # Can be set via CORS_ORIGINS env var (comma-separated)
     # Default to localhost for development + production domains
     # Default to common development and production domains
-    cors_origins: str = "http://localhost:5173,http://localhost:3000,https://fitxclash.vercel.app,https://fitxclash-production.up.railway.app"
+    cors_origins: str = "http://localhost:5173,http://localhost:3000,https://fitxclash.vercel.app,https://fitxclash-oyvj.vercel.app,https://fitxclash-production.up.railway.app"
     
     # Database (will be configured later)
     database_url: Optional[str] = None

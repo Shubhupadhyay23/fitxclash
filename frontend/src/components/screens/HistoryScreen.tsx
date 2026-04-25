@@ -30,7 +30,7 @@ export function HistoryScreen() {
         <div className="w-full max-w-5xl">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-xl md:text-2xl audiowide-regular tracking-wide text-lime-300">
+              <h1 className="text-xl md:text-2xl audiowide-regular tracking-wide text-cyan-400">
                 Full History
               </h1>
               <p className="text-xs md:text-sm text-neutral-300/80 mt-1">
@@ -40,7 +40,7 @@ export function HistoryScreen() {
             <Button
               variant="outline"
               size="sm"
-              className="px-4 py-2 text-xs audiowide-regular tracking-[0.12em] uppercase bg-black/40 border border-lime-400/70 text-lime-300 hover:bg-lime-400/10 hover:text-lime-200"
+              className="px-4 py-2 text-xs audiowide-regular tracking-[0.12em] uppercase bg-black/40 border border-cyan-500/70 text-cyan-400 hover:bg-cyan-500/10 hover:text-lime-200"
               onClick={() => navigate("/app", { replace: false })}
             >
               Back
@@ -90,7 +90,7 @@ export function HistoryScreen() {
                     <span className="w-2/12 text-center uppercase tracking-[0.16em] text-neutral-400">
                       {workout.workout_type}
                     </span>
-                    <span className="w-2/12 text-center text-lime-300 tabular-nums">
+                    <span className="w-2/12 text-center text-cyan-400 tabular-nums">
                       {workout.score}
                     </span>
                     <span className="w-2/12 text-right text-neutral-400">

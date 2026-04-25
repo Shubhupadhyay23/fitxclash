@@ -90,7 +90,7 @@ export function WorkoutDiscovery() {
             fontWeight: 400,
             margin: 0,
             marginBottom: "1rem",
-            background: "linear-gradient(135deg, #63ff00 0%, #ffffff 100%)",
+            background: "linear-gradient(135deg, #00f2ff 0%, #ffffff 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",

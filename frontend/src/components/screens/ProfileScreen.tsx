@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { logout, getCurrentUser } from "../../services/auth";
 import { userStatsAPI, type UserStats } from "../../services/api";
 import { useState, useEffect } from "react";
+import { BMICalculator } from "../BMI/BMICalculator";
 
 export function ProfileScreen() {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ export function ProfileScreen() {
               <Button
                 variant="outline"
                 size="sm"
-                className="px-4 py-2 text-xs audiowide-regular tracking-[0.12em] uppercase bg-black/40 border border-lime-400/70 text-lime-300 hover:bg-lime-400/10 hover:text-lime-200"
+                className="px-4 py-2 text-xs audiowide-regular tracking-[0.12em] uppercase bg-black/40 border border-cyan-500/70 text-cyan-400 hover:bg-cyan-500/10 hover:text-lime-200"
                 onClick={() => navigate("/info")}
               >
                 About
@@ -54,7 +55,7 @@ export function ProfileScreen() {
               <Button
                 variant="outline"
                 size="sm"
-                className="px-4 py-2 text-xs audiowide-regular tracking-[0.12em] uppercase bg-black/40 border border-lime-400/70 text-lime-300 hover:bg-lime-400/10 hover:text-lime-200"
+                className="px-4 py-2 text-xs audiowide-regular tracking-[0.12em] uppercase bg-black/40 border border-cyan-500/70 text-cyan-400 hover:bg-cyan-500/10 hover:text-lime-200"
                 onClick={() => navigate("/discover")}
               >
                 Welcome Back
@@ -62,7 +63,7 @@ export function ProfileScreen() {
               <Button
                 variant="outline"
                 size="sm"
-                className="px-4 py-2 text-xs audiowide-regular tracking-[0.12em] uppercase bg-black/40 border border-lime-400/70 text-lime-300 hover:bg-lime-400/10 hover:text-lime-200"
+                className="px-4 py-2 text-xs audiowide-regular tracking-[0.12em] uppercase bg-black/40 border border-cyan-500/70 text-cyan-400 hover:bg-cyan-500/10 hover:text-lime-200"
                 onClick={handleLogout}
               >
                 Log out
@@ -72,7 +73,7 @@ export function ProfileScreen() {
               <Button
                 variant="outline"
                 size="sm"
-                className="px-4 py-2 text-xs audiowide-regular tracking-[0.12em] uppercase bg-black/40 border border-lime-400/70 text-lime-300 hover:bg-lime-400/10 hover:text-lime-200"
+                className="px-4 py-2 text-xs audiowide-regular tracking-[0.12em] uppercase bg-black/40 border border-cyan-500/70 text-cyan-400 hover:bg-cyan-500/10 hover:text-lime-200"
                 onClick={() => {
                   // TODO: wire up to real profile editing UI
                   console.log("Edit profile clicked");
@@ -90,6 +91,10 @@ export function ProfileScreen() {
             )}
             <div className="h-[480px] md:h-[600px] flex items-center justify-center pt-0 md:pt-2">
               <RadialOrbitalProfileDemo userStats={userStats} />
+            </div>
+            
+            <div className="pb-12 px-6">
+              <BMICalculator />
             </div>
           </section>
         </div>

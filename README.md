@@ -1,16 +1,16 @@
-# 🏆 The Contender: Calisthenics Battle App
+# 🏆 FitForge Arena: The Future of Competitive Fitness
 
-The Contender is a unique, strategy-driven, head-to-head calisthenics application that blends human strength and competitive intelligence, all judged with objective AI precision. It transforms simple bodyweight exercises into a thrilling, real-time sporting event.
+FitForge Arena is a cutting-edge, AI-powered competitive calisthenics platform designed for athletes who want to test their limits against global rivals. Built with advanced computer vision and large language models, it turns every repetition into a data-driven battle for dominance.
 
-## 🎯 Core Gameplay: The Strategic Duel
+## 🎯 The Vision: AI Fitness Challenge Arena
 
-The app pits two players against each other in a series of no-equipment, bodyweight exercises (Push-ups, Squats, Planks, etc.).
+FitForge Arena redefines the workout experience by pitting two athletes against each other in real-time, no-equipment bodyweight duels.
 
-**Format:** Best-of-three rounds.
+**Format:** Best-of-three rounds of pure intensity.
 
-**Winning:** The player who performs the highest number of repetitions or holds the longest time with perfect form wins the round.
+**AI Judging:** No more "half-reps". Our Computer Vision engine ensures that every rep follows perfect form, or it simply doesn't count.
 
-**The Key Strategy:** The person who loses the current round earns the right to choose the exercise for the next round. This forces players to choose a challenge that targets the opponent's weakness while playing to their own strength.
+**The Strategy:** It's not just about strength; it's about intelligence. The loser of each round gains the tactical advantage, choosing the next exercise to exploit their opponent's weaknesses based on real-time AI analytics.
 
 ## 🤖 AI Integration: The Judge, Coach, and Narrator
 

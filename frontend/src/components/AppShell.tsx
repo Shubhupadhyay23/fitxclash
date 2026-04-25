@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { BottomNav } from "./BottomNav";
-import { WorkoutScreen } from "./screens/WorkoutScreen";
-import { TimeTrialsScreen } from "./screens/TimeTrialsScreen";
+import { DashboardScreen } from "./screens/DashboardScreen";
+import { RecommendationScreen } from "./screens/RecommendationScreen";
 import { BattleScreen } from "./screens/BattleScreen";
 import { CoachScreen } from "./screens/CoachScreen";
 import { ProfileScreen } from "./screens/ProfileScreen";
 
-type Tab = "workout" | "time" | "battle" | "coach" | "profile";
+type Tab = "recommendation" | "dashboard" | "battle" | "coach" | "profile";
 
 export function AppShell() {
   const [activeTab, setActiveTab] = useState<Tab>(() => {
     if (typeof window !== "undefined") {
       const stored = window.localStorage.getItem("app_initial_tab") as Tab | null;
-      if (stored === "workout" || stored === "time" || stored === "battle" || stored === "coach" || stored === "profile") {
+      if (stored === "recommendation" || stored === "dashboard" || stored === "battle" || stored === "coach" || stored === "profile") {
         // Clear after reading so subsequent visits use the default
         window.localStorage.removeItem("app_initial_tab");
         return stored;
@@ -23,10 +23,10 @@ export function AppShell() {
 
   const renderContent = () => {
     switch (activeTab) {
-      case "workout":
-        return <WorkoutScreen />;
-      case "time":
-        return <TimeTrialsScreen />;
+      case "recommendation":
+        return <RecommendationScreen />;
+      case "dashboard":
+        return <DashboardScreen />;
       case "battle":
         return <BattleScreen />;
       case "coach":

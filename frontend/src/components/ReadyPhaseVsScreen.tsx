@@ -75,7 +75,7 @@ const ReadyPhaseVsScreen: React.FC<ReadyPhaseVsScreenProps> = ({
             </div>
             <div className="flex flex-col">
               <span className="text-[11px] font-medium tracking-[0.24em] text-slate-400 uppercase">
-                FitDuo
+                FitForge
               </span>
               <span className="text-xs text-slate-500 -mt-0.5">
                 Versus • Ready phase

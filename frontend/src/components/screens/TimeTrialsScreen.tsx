@@ -73,7 +73,7 @@ export function TimeTrialsScreen() {
             style={{
               fontFamily: "VT323, monospace",
               fontSize: "3rem",
-              color: "#63ff00",
+              color: "#00f2ff",
               fontWeight: "bold",
             }}
           >
@@ -81,7 +81,7 @@ export function TimeTrialsScreen() {
           </div>
           <div style={{ textAlign: "right" }}>
             <div style={{ fontSize: "0.875rem", opacity: 0.8 }}>Reps</div>
-            <div style={{ fontSize: "2rem", color: "#63ff00" }}>0</div>
+            <div style={{ fontSize: "2rem", color: "#00f2ff" }}>0</div>
           </div>
         </div>
 
@@ -89,13 +89,13 @@ export function TimeTrialsScreen() {
         <div
           style={{
             flex: 1,
-            backgroundColor: "rgba(99, 255, 0, 0.1)",
+            backgroundColor: "rgba(0, 242, 255, 0.1)",
             margin: "1rem",
             borderRadius: "20px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            border: "1px solid rgba(99, 255, 0, 0.2)",
+            border: "1px solid rgba(0, 242, 255, 0.2)",
           }}
         >
           <div style={{ textAlign: "center" }}>
@@ -148,7 +148,7 @@ export function TimeTrialsScreen() {
           fontWeight: 400,
           margin: 0,
           marginBottom: "0.5rem",
-          color: "#63ff00",
+          color: "#00f2ff",
         }}
       >
         <span className="ai-heading-clip-text">Time Trials</span>
@@ -177,7 +177,7 @@ export function TimeTrialsScreen() {
                 fontWeight: 600,
                 margin: 0,
                 marginBottom: "0.5rem",
-                color: "#63ff00",
+                color: "#00f2ff",
               }}
             >
               {mode.name}

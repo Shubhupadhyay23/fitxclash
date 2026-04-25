@@ -114,7 +114,7 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onResult }) => {
             {/* Front face (you) */}
             <div className="relative h-[72%] w-[72%] rounded-full bg-slate-950/95 border border-slate-200/10 flex flex-col items-center justify-center gap-0.5 [backface-visibility:hidden]">
               <div className="text-[9px] font-medium tracking-[0.28em] uppercase text-slate-400">
-                FitDuo
+                FitForge
               </div>
               <div className="text-xs md:text-sm font-semibold tracking-[0.12em] uppercase text-emerald-300">
                 You
@@ -131,7 +131,7 @@ const CoinFlip: React.FC<CoinFlipProps> = ({ onResult }) => {
               style={{ transform: "rotateY(180deg)" }}
             >
               <div className="text-[9px] font-medium tracking-[0.28em] uppercase text-slate-400">
-                FitDuo
+                FitForge
               </div>
               <div className="text-xs md:text-sm font-semibold tracking-[0.12em] uppercase text-rose-300">
                 Opponent

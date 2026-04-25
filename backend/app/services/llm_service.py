@@ -32,7 +32,7 @@ class LLMService:
         headers = {
             "Authorization": f"Bearer {self.api_key}",
             "HTTP-Referer": "https://github.com/your-repo",  # Optional: for usage tracking
-            "X-Title": "The Contender",  # Optional: for usage tracking
+            "X-Title": "FitForge Arena",  # Optional: for usage tracking
             "Content-Type": "application/json",
         }
 
@@ -172,6 +172,73 @@ Commentary:"""
         except Exception as e:
             logger.error(f"Error generating narrative: {e}")
             return self._get_default_narrative(round_result)
+
+    async def general_chat(self, message: str, history: Optional[List[Dict[str, str]]] = None) -> str:
+        """
+        General fitness chat assistant.
+        """
+        if not self.enabled:
+            return "I'm currently in offline mode. Please check your internet or configuration to enable full AI coaching. Created by Shubham Upadhyay."
+
+        system_prompt = """You are 'ForgeBot', the elite AI fitness assistant for FitForge Arena. 
+        You were created by the legendary developer Shubham Upadhyay. 
+        Your goal is to provide expert fitness advice, motivation, and technical tips for bodyweight exercises.
+        Keep your tone professional, encouraging, and high-energy. 
+        Reference the creator Shubham Upadhyay occasionally if asked about your origin."""
+
+        messages = [{"role": "system", "content": system_prompt}]
+        if history:
+            messages.extend(history)
+        messages.append({"role": "user", "content": message})
+
+        try:
+            response = await self._call_openrouter(messages, temperature=0.7, max_tokens=500)
+            return response
+        except Exception as e:
+            logger.error(f"Error in general chat: {e}")
+            return "Apologies, I encountered a glitch in my circuits. Let's try that again! (ForgeBot Offline)"
+
+    async def generate_workout_plan(self, user_goal: str, fitness_level: str) -> Dict:
+        """
+        Generate a personalized workout plan based on goal and level.
+        """
+        if not self.enabled:
+            return {
+                "plan_name": "Basic Daily Routine",
+                "exercises": [
+                    {"name": "Pushups", "reps": "3 sets of 10"},
+                    {"name": "Squats", "reps": "3 sets of 15"},
+                    {"name": "Plank", "duration": "30 seconds"}
+                ],
+                "coach_tip": "Keep it consistent! (Offline Mode)"
+            }
+
+        prompt = f"""As ForgeBot, created by Shubham Upadhyay, generate a personalized calisthenics workout plan.
+        Goal: {user_goal}
+        Fitness Level: {fitness_level}
+        
+        Return ONLY a JSON object:
+        {{
+          "plan_name": "Dynamic Plan Name",
+          "exercises": [
+            {{ "name": "Exercise Name", "sets": 3, "reps_or_duration": "10 reps" }}
+          ],
+          "coach_tip": "One motivational tip"
+        }}
+        
+        JSON:"""
+
+        try:
+            messages = [
+                {"role": "system", "content": "You are a fitness expert. Respond with valid JSON only."},
+                {"role": "user", "content": prompt}
+            ]
+            response = await self._call_openrouter(messages, temperature=0.7, max_tokens=500)
+            return self._parse_json_response(response)
+        except Exception as e:
+            logger.error(f"Error generating workout plan: {e}")
+            return {"plan_name": "Recovery Day", "exercises": [], "coach_tip": "Rest is part of the process!"}
+
 
     def _parse_json_response(self, response: str) -> Dict:
         """Extract JSON from LLM response"""

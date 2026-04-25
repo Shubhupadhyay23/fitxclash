@@ -34,7 +34,7 @@ export function Globe({ size = 400 }: GlobeProps) {
       mapSamples: 16000,
       mapBrightness: 6,
       baseColor: [0.1, 0.1, 0.15],
-      markerColor: [0.39, 1.0, 0.0], // Neon green #63ff00
+      markerColor: [0.39, 1.0, 0.0], // Neon green #00f2ff
       glowColor: [0.39, 1.0, 0.0],
       markers: [
         // Major cities with active players

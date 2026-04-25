@@ -204,7 +204,7 @@ export default function RadialOrbitalProfileTimeline({
       <div className="relative w-full max-w-4xl h-full flex items-center justify-center">
         {!hasExpanded && (
           <div className="absolute z-20 flex flex-col items-center gap-3 pointer-events-none -translate-y-10">
-            <div className="relative w-24 h-24 rounded-full bg-gradient-to-br from-lime-400 via-emerald-400 to-teal-400 flex items-center justify-center shadow-orbital">
+            <div className="relative w-24 h-24 rounded-full bg-gradient-to-br from-cyan-400 via-emerald-400 to-teal-400 flex items-center justify-center shadow-orbital">
               <div className="w-20 h-20 rounded-full bg-black/70 border border-white/60 flex items-center justify-center text-2xl font-semibold">
                 <UserIcon size={28} />
               </div>
@@ -214,8 +214,8 @@ export default function RadialOrbitalProfileTimeline({
               <h2
                 className="text-xl audiowide-regular tracking-tight"
                 style={{
-                  color: "#63ff00",
-                  textShadow: "0 0 18px rgba(99, 255, 0, 0.7)",
+                  color: "#00f2ff",
+                  textShadow: "0 0 18px rgba(0, 242, 255, 0.7)",
                 }}
               >
                 {profile.name}
@@ -307,7 +307,7 @@ export default function RadialOrbitalProfileTimeline({
                     absolute top-12 whitespace-nowrap
                     text-[10px] audiowide-regular uppercase tracking-[0.18em]
                     transition-all duration-300
-                    ${isExpanded ? "text-lime-300 scale-125" : "text-neutral-200/80"}
+                    ${isExpanded ? "text-cyan-400 scale-125" : "text-neutral-200/80"}
                   `}
                 >
                   {item.title}
@@ -404,7 +404,7 @@ export default function RadialOrbitalProfileTimeline({
                                         <span className="flex-1 ml-2 truncate">
                                           {workout.exercise_name}
                                         </span>
-                                        <span className="ml-2 text-lime-300 tabular-nums">
+                                        <span className="ml-2 text-cyan-400 tabular-nums">
                                           {workout.score}
                                         </span>
                                       </div>

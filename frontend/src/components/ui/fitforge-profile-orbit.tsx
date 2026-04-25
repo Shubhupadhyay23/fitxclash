@@ -26,15 +26,15 @@ export interface ProfileNode {
   energy: number;
 }
 
-interface FitDuoProfileOrbitProps {
+interface FitForgeProfileOrbitProps {
   username: string;
   nodes: ProfileNode[];
 }
 
-export function FitDuoProfileOrbit({
+export function FitForgeProfileOrbit({
   username,
   nodes,
-}: FitDuoProfileOrbitProps) {
+}: FitForgeProfileOrbitProps) {
   const [expandedItems, setExpandedItems] = useState<Record<number, boolean>>(
     {}
   );
@@ -173,7 +173,7 @@ export function FitDuoProfileOrbit({
       className="w-full h-[480px] md:h-[640px] flex flex-col items-center justify-center bg-black/90 rounded-3xl border border-white/10 relative overflow-hidden"
     >
       <div className="pointer-events-none absolute -top-40 -right-32 h-72 w-72 rounded-full bg-emerald-400/15 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-40 -left-32 h-72 w-72 rounded-full bg-lime-400/10 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-40 -left-32 h-72 w-72 rounded-full bg-cyan-500/10 blur-3xl" />
 
       <div className="absolute top-4 left-6 flex items-center gap-2 z-20">
         <div className="w-7 h-7 rounded-full bg-gradient-to-br from-emerald-400 via-lime-400 to-cyan-400 flex items-center justify-center text-xs font-semibold text-black shadow-[0_0_12px_rgba(74,222,128,0.8)]">
@@ -181,7 +181,7 @@ export function FitDuoProfileOrbit({
         </div>
         <div>
           <p className="text-xs uppercase tracking-[0.2em] text-emerald-300/80">
-            FitDuo Profile
+            FitForge Profile
           </p>
           <p className="text-sm font-semibold text-white/90">
             {username}&apos;s Orbit
@@ -368,7 +368,7 @@ export function FitDuoProfileOrbit({
 }
 
 // Re-export icons used by the demo config so callers don't need to import them.
-export const FitDuoOrbitIcons = {
+export const FitForgeOrbitIcons = {
   Activity,
   Flame,
   Target,

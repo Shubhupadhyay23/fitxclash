@@ -1346,7 +1346,7 @@ export function ActiveBattleScreen() {
                   {/* Mini match badge (no season/tier for now) */}
                   <div className="flex items-center gap-4 md:gap-5">
                     <div className="hidden sm:flex flex-col items-end gap-1 text-[11px] text-slate-400 uppercase tracking-[0.24em]">
-                      <span className="text-slate-400/80">FitDuo</span>
+                      <span className="text-slate-400/80">FitForge</span>
                       <span className="text-slate-500/80">VS BATTLE</span>
                     </div>
                   </div>
@@ -1760,7 +1760,7 @@ export function ActiveBattleScreen() {
                           Coaching Insight
                         </h3>
                         <p className="text-[11px] text-slate-400">
-                          Powered by FitDuo Pace Engine
+                          Powered by FitForge Pace Engine
                         </p>
                       </div>
                     </div>
@@ -2139,7 +2139,7 @@ export function ActiveBattleScreen() {
                       <span>Finished • Live session</span>
                       <span className="hidden sm:inline-block h-3 w-px bg-slate-700/80" />
                       <span className="uppercase tracking-[0.22em] text-slate-500/90">
-                        FitDuo Arena
+                        FitForge Arena
                       </span>
                     </div>
                   </div>
@@ -2241,7 +2241,7 @@ export function ActiveBattleScreen() {
 
               {/* Scores */}
               <div className="grid grid-cols-2 gap-6 max-w-md mx-auto mb-6">
-                <div className="bg-[#020511]/80 border border-lime-400/30 rounded-xl p-4">
+                <div className="bg-[#020511]/80 border border-cyan-500/30 rounded-xl p-4">
                   <p className="text-xs uppercase tracking-wider text-slate-400 mb-2">Your Score</p>
                   <p className="text-3xl font-semibold text-lime-400">{userScore}</p>
                 </div>
@@ -2254,8 +2254,8 @@ export function ActiveBattleScreen() {
               {/* Round Wins with shimmer pill */}
               <div className="mb-6">
                 <p className="text-sm text-slate-400 mb-2">Match Score (Best of 3 Rounds)</p>
-                <div className="inline-flex items-center gap-4 rounded-xl px-6 py-3 bg-gradient-to-r from-lime-400/15 via-fuchsia-500/10 to-sky-400/15 border border-slate-600">
-                  <span className="text-lime-300 font-semibold">
+                <div className="inline-flex items-center gap-4 rounded-xl px-6 py-3 bg-gradient-to-r from-cyan-400/15 via-fuchsia-500/10 to-sky-400/15 border border-slate-600">
+                  <span className="text-cyan-400 font-semibold">
                     You: {userRoundsWon}
                   </span>
                   <span className="text-slate-500">-</span>
@@ -2278,7 +2278,7 @@ export function ActiveBattleScreen() {
               {currentRound < 3 && (
                 <div className="mt-6 flex flex-col items-center gap-3">
                   <div className="inline-flex items-center gap-3 bg-slate-700/30 border border-slate-600 rounded-xl px-6 py-3">
-                    <span className="text-2xl audiowide-regular text-lime-300">
+                    <span className="text-2xl audiowide-regular text-cyan-400">
                       {roundEndCountdown}
                     </span>
                     <p className="text-slate-400">
@@ -2333,9 +2333,9 @@ export function ActiveBattleScreen() {
               {/* Animated coin */}
               <div className="flex justify-center mb-8">
                 <div className="relative w-32 h-32">
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-lime-400 via-emerald-500 to-fuchsia-500 shadow-[0_0_40px_rgba(132,255,78,0.7)] animate-spin" style={{ animationDuration: "1s" }} />
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyan-400 via-emerald-500 to-fuchsia-500 shadow-[0_0_40px_rgba(132,255,78,0.7)] animate-spin" style={{ animationDuration: "1s" }} />
                   <div className="absolute inset-2 rounded-full bg-[#020617] border border-lime-300/60 flex items-center justify-center">
-                    <span className="audiowide-regular text-sm tracking-[0.18em] text-lime-300">
+                    <span className="audiowide-regular text-sm tracking-[0.18em] text-cyan-400">
                       VS
                     </span>
                   </div>
@@ -2345,11 +2345,11 @@ export function ActiveBattleScreen() {
               {/* Result */}
               <div className="mt-8">
                 {isWinner ? (
-                  <div className="inline-flex items-center gap-3 bg-lime-500/20 border-2 border-lime-400 rounded-2xl px-8 py-4">
+                  <div className="inline-flex items-center gap-3 bg-lime-500/20 border-2 border-cyan-500 rounded-2xl px-8 py-4">
                     <span className="inline-flex h-9 w-9 rounded-full bg-gradient-to-br from-lime-300 to-emerald-500 shadow-[0_0_24px_rgba(132,255,78,0.9)] items-center justify-center">
                       <span className="audiowide-regular text-xs text-black">YOU</span>
                     </span>
-                    <span className="text-2xl font-semibold text-lime-300">You Choose First!</span>
+                    <span className="text-2xl font-semibold text-cyan-400">You Choose First!</span>
                   </div>
                 ) : (
                   <div className="inline-flex items-center gap-3 bg-slate-700/50 border-2 border-slate-500 rounded-2xl px-8 py-4">
@@ -2401,14 +2401,14 @@ export function ActiveBattleScreen() {
                 <button
                   key={exercise.id}
                   onClick={() => handleExerciseSelect(exercise.id)}
-                  className="group relative rounded-2xl border-2 border-lime-400/30 bg-[#020511]/80 backdrop-blur-sm p-6 hover:border-lime-400/60 hover:bg-[#020511] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(132,255,78,0.3)]"
+                  className="group relative rounded-2xl border-2 border-cyan-500/30 bg-[#020511]/80 backdrop-blur-sm p-6 hover:border-cyan-500/60 hover:bg-[#020511] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(132,255,78,0.3)]"
                 >
                   <div className="mb-3 flex items-center justify-center">
                     {exercise.id === "push-up" && (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
-                        className="h-10 w-10 text-lime-300"
+                        className="h-10 w-10 text-cyan-400"
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="1.6"
@@ -2424,7 +2424,7 @@ export function ActiveBattleScreen() {
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
-                        className="h-10 w-10 text-lime-300"
+                        className="h-10 w-10 text-cyan-400"
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="1.6"
@@ -2439,7 +2439,7 @@ export function ActiveBattleScreen() {
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
-                        className="h-10 w-10 text-lime-300"
+                        className="h-10 w-10 text-cyan-400"
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="1.6"
@@ -2454,7 +2454,7 @@ export function ActiveBattleScreen() {
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
-                        className="h-10 w-10 text-lime-300"
+                        className="h-10 w-10 text-cyan-400"
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="1.6"
@@ -2468,11 +2468,11 @@ export function ActiveBattleScreen() {
                       </svg>
                     )}
                   </div>
-                  <h3 className="text-lg font-semibold text-lime-300 mb-1 audiowide-regular">
+                  <h3 className="text-lg font-semibold text-cyan-400 mb-1 audiowide-regular">
                     {exercise.name}
                   </h3>
                   <p className="text-xs text-slate-400">{exercise.description}</p>
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-lime-400/0 to-lime-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-cyan-400/0 to-cyan-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </button>
               ))}
             </div>
@@ -2514,7 +2514,7 @@ export function ActiveBattleScreen() {
               {/* Loading animation */}
               <div className="flex justify-center mb-8">
                 <div className="relative">
-                  <div className="w-16 h-16 border-4 border-lime-400/30 border-t-lime-400 rounded-full animate-spin" />
+                  <div className="w-16 h-16 border-4 border-cyan-500/30 border-t-lime-400 rounded-full animate-spin" />
                 </div>
               </div>
 
@@ -2538,7 +2538,7 @@ export function ActiveBattleScreen() {
           <div className="w-full max-w-4xl space-y-8">
             {/* Round Indicator with per-letter intro animation */}
             <div className="text-center mb-4">
-              <div className="inline-flex items-center gap-2 bg-lime-400/10 border border-lime-400/30 rounded-full px-4 py-2 text-sm text-lime-300">
+              <div className="inline-flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/30 rounded-full px-4 py-2 text-sm text-cyan-400">
                 <AnimatedTitle text={`Round ${currentRound} of 3`} />
                 {selectedExercise && (
                   <>
@@ -2553,7 +2553,7 @@ export function ActiveBattleScreen() {
             </div>
 
             {/* CV Video Feed - Hidden but active for detection */}
-            <div className="fixed top-4 right-4 w-48 h-36 rounded-lg overflow-hidden border-2 border-lime-400/30 bg-black/80 z-20">
+            <div className="fixed top-4 right-4 w-48 h-36 rounded-lg overflow-hidden border-2 border-cyan-500/30 bg-black/80 z-20">
               <video
                 ref={videoRef}
                 autoPlay
@@ -2566,7 +2566,7 @@ export function ActiveBattleScreen() {
                 className="absolute top-0 left-0 w-full h-full pointer-events-none"
               />
               {!isCVReady && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/60 text-xs text-lime-300">
+                <div className="absolute inset-0 flex items-center justify-center bg-black/60 text-xs text-cyan-400">
                   {cvError ? "Camera Error" : "Initializing CV..."}
                 </div>
               )}
@@ -2588,25 +2588,25 @@ export function ActiveBattleScreen() {
                 <p className="text-lg text-slate-300 mb-4">
                   Get into starting position
                 </p>
-                <p className="text-4xl font-bold text-lime-300 mb-4">
+                <p className="text-4xl font-bold text-cyan-400 mb-4">
                   {readyPhaseRemaining}s
                 </p>
                 <div className="flex justify-center gap-4 mb-4">
-                  <div className={`px-4 py-2 rounded-lg ${userReady ? "bg-lime-500/20 border-2 border-lime-400" : "bg-slate-700/50 border-2 border-slate-500"}`}>
+                  <div className={`px-4 py-2 rounded-lg ${userReady ? "bg-lime-500/20 border-2 border-cyan-500" : "bg-slate-700/50 border-2 border-slate-500"}`}>
                     <p className="text-sm text-slate-400">You</p>
                     <p
                       className={`text-lg font-semibold audiowide-regular tracking-wide ${
-                        userReady ? "text-lime-300" : "text-slate-400"
+                        userReady ? "text-cyan-400" : "text-slate-400"
                       }`}
                     >
                       {userReady ? "✓ Ready" : "Not Ready"}
                     </p>
                   </div>
-                  <div className={`px-4 py-2 rounded-lg ${opponentReady ? "bg-lime-500/20 border-2 border-lime-400" : "bg-slate-700/50 border-2 border-slate-500"}`}>
+                  <div className={`px-4 py-2 rounded-lg ${opponentReady ? "bg-lime-500/20 border-2 border-cyan-500" : "bg-slate-700/50 border-2 border-slate-500"}`}>
                     <p className="text-sm text-slate-400">Opponent</p>
                     <p
                       className={`text-lg font-semibold audiowide-regular tracking-wide ${
-                        opponentReady ? "text-lime-300" : "text-slate-400"
+                        opponentReady ? "text-cyan-400" : "text-slate-400"
                       }`}
                     >
                       {opponentReady ? "✓ Ready" : "Not Ready"}

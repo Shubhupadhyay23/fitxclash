@@ -113,7 +113,7 @@ export const LiveBattleCard: React.FC<LiveBattleProps> = ({
     <div className="flex flex-col items-center gap-6 text-white">
       {/* Top title */}
       <div className="text-center">
-        <p className="text-xs uppercase tracking-[0.3em] text-lime-300/70">
+        <p className="text-xs uppercase tracking-[0.3em] text-cyan-400/70">
           Match Ready
         </p>
         <h1 className="mt-1 text-3xl font-semibold text-lime-400 audiowide-regular">
@@ -121,7 +121,7 @@ export const LiveBattleCard: React.FC<LiveBattleProps> = ({
         </h1>
         {gameId && (
           <p className="mt-1 text-xs text-slate-400">
-            Game ID: <span className="font-mono text-lime-300">{gameId}</span>
+            Game ID: <span className="font-mono text-cyan-400">{gameId}</span>
           </p>
         )}
       </div>
@@ -155,7 +155,7 @@ export const LiveBattleCard: React.FC<LiveBattleProps> = ({
           <div className="mt-4">
             <div className="flex justify-between text-[11px] uppercase tracking-[0.22em] text-slate-400 mb-1">
               <span>Time Left</span>
-              <span className="text-lime-300">{timerValue}</span>
+              <span className="text-cyan-400">{timerValue}</span>
             </div>
             <div className="h-2 w-full rounded-full bg-slate-800 overflow-hidden">
               <div
@@ -169,10 +169,10 @@ export const LiveBattleCard: React.FC<LiveBattleProps> = ({
         {/* Right side: GO button / state indicator */}
         <div className="flex-shrink-0">
           <div className="relative">
-            <div className="absolute -inset-5 rounded-[28px] bg-lime-400/30 blur-2xl" />
+            <div className="absolute -inset-5 rounded-[28px] bg-cyan-500/30 blur-2xl" />
             <button
               type="button"
-              className="relative h-28 w-28 rounded-[24px] bg-gradient-to-b from-lime-400 to-lime-500 text-black text-3xl font-semibold breathe-go"
+              className="relative h-28 w-28 rounded-[24px] bg-gradient-to-b from-cyan-400 to-lime-500 text-black text-3xl font-semibold breathe-go"
               disabled
               aria-label={
                 isCountdown ? "Match countdown indicator" : isLive ? "Live match indicator" : "Match ended indicator"
@@ -192,7 +192,7 @@ export const LiveBattleCard: React.FC<LiveBattleProps> = ({
           <div className="flex items-center justify-between">
             <div className="flex items-baseline gap-2">
               <span className="font-semibold text-slate-100">You</span>
-              <span className="font-mono text-lime-300">
+              <span className="font-mono text-cyan-400">
                 {formattedUserMetric}
                 {mode === "reps" ? " reps" : ""}
               </span>
@@ -210,7 +210,7 @@ export const LiveBattleCard: React.FC<LiveBattleProps> = ({
           <div className="mt-1">
             <div className="h-1.5 w-full rounded-full bg-slate-900 overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-lime-400 via-emerald-400 to-sky-400 transition-[width] duration-300"
+                className="h-full bg-gradient-to-r from-cyan-400 via-emerald-400 to-sky-400 transition-[width] duration-300"
                 style={{ width: `${youPercent}%` }}
               />
             </div>

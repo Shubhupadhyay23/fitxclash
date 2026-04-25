@@ -11,13 +11,13 @@ import { getAnalytics } from "firebase/analytics";
 // Firebase web app configuration
 // All values should be set in .env.local file
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+  apiKey: "AIzaSyD7sQn4wc3kCKEVAPY3_iHqnW3jAO0sS0s",
+  authDomain: "fitxclashapp.firebaseapp.com",
+  projectId: "fitxclashapp",
+  storageBucket: "fitxclashapp.firebasestorage.app",
+  messagingSenderId: "979924828812",
+  appId: "1:979924828812:web:10eaf33096ac657249b1a9",
+  measurementId: "G-B1E0H2ZRCF"
 };
 
 // Validate that all required config values are present

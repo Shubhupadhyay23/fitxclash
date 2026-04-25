@@ -60,9 +60,9 @@ export function WorkoutScreen() {
           style={{
             padding: "0.875rem 2rem",
             borderRadius: "12px",
-            border: "1px solid rgba(99, 255, 0, 0.5)",
+            border: "1px solid rgba(0, 242, 255, 0.5)",
             background: "transparent",
-            color: "#63ff00",
+            color: "#00f2ff",
             fontFamily: "Audiowide, sans-serif",
             cursor: "pointer",
           }}
@@ -89,7 +89,7 @@ export function WorkoutScreen() {
           fontWeight: 400,
           margin: 0,
           marginBottom: "0.5rem",
-          color: "#63ff00",
+          color: "#00f2ff",
         }}
       >
         <span className="ai-heading-clip-text">Quick Workout</span>
@@ -118,7 +118,7 @@ export function WorkoutScreen() {
                 fontWeight: 600,
                 margin: 0,
                 marginBottom: "0.5rem",
-                color: "#63ff00",
+                color: "#00f2ff",
               }}
             >
               {workout.name}
@@ -137,8 +137,8 @@ export function WorkoutScreen() {
                 style={{
                   padding: "0.25rem 0.75rem",
                   borderRadius: "12px",
-                  background: "rgba(99, 255, 0, 0.2)",
-                  color: "#63ff00",
+                  background: "rgba(0, 242, 255, 0.2)",
+                  color: "#00f2ff",
                 }}
               >
                 {workout.intensity}

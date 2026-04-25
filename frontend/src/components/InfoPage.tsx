@@ -20,7 +20,7 @@ export function InfoPage({ onBack }: InfoPageProps) {
   return (
     <div className="info-page">
       <header className="info-header">
-        <h1 className="info-logo">FitDuo Arena</h1>
+        <h1 className="info-logo">FitForge Arena</h1>
         <button className="info-back-btn" onClick={handleBack}>
           ← Back to home
         </button>
@@ -29,12 +29,12 @@ export function InfoPage({ onBack }: InfoPageProps) {
       <main className="info-main">
         <section className="info-text">
           <h2 className="info-title">
-            How FitDuo finds your perfect rival anywhere on Earth
+            How FitForge finds your perfect rival anywhere on Earth
           </h2>
 
           <div className="info-body">
             <p>
-              When you tap "Find a Rival", FitDuo matches you by intensity, timezone,
+              When you tap "Find a Rival", FitForge matches you by intensity, timezone,
               and preferred exercises so you aren't paired with a ghost or mismatch. Our
               algorithm considers your skill level, workout preferences, and availability to
               connect you with someone who will push you to perform your best.

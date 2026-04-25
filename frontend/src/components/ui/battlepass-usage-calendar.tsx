@@ -35,7 +35,7 @@ function renderDay(status: DayStatus) {
     // Full lime = user did battle/training that day
     return (
       <div className="relative flex items-center justify-center">
-        <div className={`${baseCircle} bg-lime-400 border-lime-200/80`} />
+        <div className={`${baseCircle} bg-cyan-500 border-lime-200/80`} />
       </div>
     );
   }
@@ -47,7 +47,7 @@ function renderDay(status: DayStatus) {
         <div
           className={`${baseCircle} bg-neutral-800 border-white/10 overflow-hidden relative`}
         >
-          <div className="absolute inset-y-0 right-0 w-1/2 bg-lime-400" />
+          <div className="absolute inset-y-0 right-0 w-1/2 bg-cyan-500" />
         </div>
       </div>
     );
@@ -113,12 +113,12 @@ export function BattlePassUsageCalendar({
       {/* Legend */}
       <div className="mt-3 pt-2 border-t flex items-center justify-between text-[10px] border-white/10 text-neutral-400">
         <div className="flex items-center gap-1.5">
-          <span className="inline-block h-2.5 w-2.5 rounded-full bg-lime-400" />
+          <span className="inline-block h-2.5 w-2.5 rounded-full bg-cyan-500" />
           <span>Battle / training</span>
         </div>
         <div className="flex items-center gap-1.5">
           <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-neutral-700 border border-white/10 overflow-hidden">
-            <span className="absolute inset-y-0 right-0 w-1/2 bg-lime-400" />
+            <span className="absolute inset-y-0 right-0 w-1/2 bg-cyan-500" />
           </span>
           <span>Login only</span>
         </div>

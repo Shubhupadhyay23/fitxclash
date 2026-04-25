@@ -178,7 +178,7 @@ export function BattleScreen({ onNavigateToProfile: _onNavigateToProfile }: { on
             style={{
               fontSize: "8rem",
               fontFamily: "VT323, monospace",
-              color: "#63ff00",
+              color: "#00f2ff",
               fontWeight: "bold",
             }}
           >
@@ -307,9 +307,12 @@ export function BattleScreen({ onNavigateToProfile: _onNavigateToProfile }: { on
                       Jump into a live 1-minute rep race against a matched rival.
                     </p>
                   </div>
-                  <div className="matchmaking-cta-row">
+                  <div className="matchmaking-cta-row flex gap-4">
                     <ElectricButton onClick={handleFindRival} disabled={loading}>
                       {loading ? "Joining queue..." : "Find a Rival"}
+                    </ElectricButton>
+                    <ElectricButton onClick={() => navigate("/app/solo")} variant="outline">
+                      Trial vs AI
                     </ElectricButton>
                   </div>
                 </div>

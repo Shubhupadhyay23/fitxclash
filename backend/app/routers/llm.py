@@ -76,3 +76,28 @@ async def get_narrative(request: NarrativeRequest):
     narrative = await llm_service.generate_narrative(round_result)
     return NarrativeResponse(narrative=narrative)
 
+class ChatRequest(BaseModel):
+    message: str
+    history: Optional[list[dict[str, str]]] = None
+
+
+class ChatResponse(BaseModel):
+    response: str
+
+
+@router.post("/chat", response_model=ChatResponse)
+async def general_chat(request: ChatRequest):
+    """General fitness chat assistant endpoint"""
+    response = await llm_service.general_chat(request.message, request.history)
+    return ChatResponse(response=response)
+
+class WorkoutPlanRequest(BaseModel):
+    user_goal: str
+    fitness_level: str
+
+
+@router.post("/workout-plan")
+async def generate_workout_plan(request: WorkoutPlanRequest):
+    """Personalized workout plan endpoint"""
+    plan = await llm_service.generate_workout_plan(request.user_goal, request.fitness_level)
+    return plan

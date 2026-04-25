@@ -98,7 +98,7 @@ export function BattleCountdownPanel({
 
         <div
           className={[
-            "relative flex h-20 w-20 items-center justify-center rounded-2xl border border-lime-500/50 bg-gradient-to-br from-lime-500/20 via-emerald-500/10 to-lime-400/30",
+            "relative flex h-20 w-20 items-center justify-center rounded-2xl border border-lime-500/50 bg-gradient-to-br from-lime-500/20 via-emerald-500/10 to-cyan-400/30",
             "shadow-[0_0_25px_rgba(99,255,0,0.5)]",
             "transition-transform duration-150",
             timeLeft !== null && timeLeft <= 3 ? "scale-105" : "scale-100",
@@ -106,13 +106,13 @@ export function BattleCountdownPanel({
         >
           <span
             className={[
-              "text-5xl font-bold text-lime-300",
+              "text-5xl font-bold text-cyan-400",
               "font-[var(--countdown-font,VT323,monospace)]",
               "drop-shadow-[0_0_18px_rgba(99,255,0,0.9)]",
               "transition-all duration-150",
               timeLeft !== null && timeLeft <= 3
                 ? "scale-110 text-lime-200"
-                : "scale-100 text-lime-300",
+                : "scale-100 text-cyan-400",
             ].join(" ")}
           >
             {timeLeft !== null && timeLeft > 0 ? timeLeft : "GO"}

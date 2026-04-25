@@ -35,8 +35,8 @@
   font-weight: 400;
   margin: 0;
   margin-bottom: 0.75rem;
-  color: #63ff00;
-  text-shadow: 0 0 20px rgba(99, 255, 0, 0.5);
+  color: #00f2ff;
+  text-shadow: 0 0 20px rgba(0, 242, 255, 0.5);
 }
 
 .matchmaking-subtitle {
@@ -111,14 +111,14 @@
   width: 100%;
   max-width: 520px;
   border-radius: 20px;
-  border: 1px solid rgba(99, 255, 0, 0.12);
+  border: 1px solid rgba(0, 242, 255, 0.12);
   /* Softer, more transparent glass card over a blurred background */
-  background: radial-gradient(circle at top left, rgba(99, 255, 0, 0.04), transparent 55%),
+  background: radial-gradient(circle at top left, rgba(0, 242, 255, 0.04), transparent 55%),
     rgba(3, 7, 18, 0.5);
   backdrop-filter: blur(22px);
   box-shadow:
     0 18px 40px rgba(0, 0, 0, 0.65),
-    0 0 26px rgba(99, 255, 0, 0.1);
+    0 0 26px rgba(0, 242, 255, 0.1);
   padding: 1.75rem 1.75rem 1.5rem 1.75rem;
   flex-direction: column;
   justify-content: space-between;

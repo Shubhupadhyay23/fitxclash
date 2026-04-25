@@ -6,7 +6,7 @@ import os
 
 class Settings(BaseSettings):
     # API Configuration
-    api_title: str = "The Contender API"
+    api_title: str = "FitForge Arena API"
     api_version: str = "1.0.0"
     environment: str = "development"
     

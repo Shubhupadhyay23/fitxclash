@@ -31,6 +31,11 @@ const HistoryScreen = lazy(() =>
     default: module.HistoryScreen,
   }))
 );
+const SoloBattleScreen = lazy(() =>
+  import("./components/screens/SoloBattleScreen").then((module) => ({
+    default: module.SoloBattleScreen,
+  }))
+);
 
 // Protected Route component
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -100,6 +105,18 @@ function App() {
                 <VantaBackground>
                   <Suspense fallback={<LoadingFallback />}>
                     <ActiveBattleScreen />
+                  </Suspense>
+                </VantaBackground>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/app/solo"
+            element={
+              <ProtectedRoute>
+                <VantaBackground>
+                  <Suspense fallback={<LoadingFallback />}>
+                    <SoloBattleScreen />
                   </Suspense>
                 </VantaBackground>
               </ProtectedRoute>

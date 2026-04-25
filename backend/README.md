@@ -2,7 +2,7 @@
 
 ## 🚀 Getting Started
 
-This is the backend workspace for the FitDuo application.
+This is the backend workspace for the FitForge application.
 
 ## 📚 Important Documentation
 

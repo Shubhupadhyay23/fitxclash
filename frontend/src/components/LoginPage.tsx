@@ -196,7 +196,7 @@ export function LoginPage() {
           fontWeight: 400,
           margin: 0,
           marginBottom: "0.5rem",
-          background: "linear-gradient(135deg, #63ff00 0%, #ffffff 100%)",
+          background: "linear-gradient(135deg, #00f2ff 0%, #ffffff 100%)",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
           backgroundClip: "text",
@@ -205,7 +205,7 @@ export function LoginPage() {
           textAlign: "center",
         }}
       >
-        FitDuo Arena
+        FitForge Arena
       </h1>
 
       <p
@@ -226,32 +226,45 @@ export function LoginPage() {
         onClick={() => navigate("/info")}
         style={{
           padding: "0.75rem 1.5rem",
-          background: "rgba(99, 255, 0, 0.1)",
-          border: "1px solid rgba(99, 255, 0, 0.3)",
+          background: "rgba(0, 242, 255, 0.1)",
+          border: "1px solid rgba(0, 242, 255, 0.3)",
           borderRadius: "12px",
-          color: "#63ff00",
+          color: "#00f2ff",
           fontFamily: "Audiowide, sans-serif",
           fontSize: "0.875rem",
           cursor: "pointer",
           transition: "all 0.3s ease",
-          textShadow: "0 0 10px rgba(99, 255, 0, 0.3)",
+          textShadow: "0 0 10px rgba(0, 242, 255, 0.3)",
           marginBottom: "2rem",
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.background = "rgba(99, 255, 0, 0.2)";
-          e.currentTarget.style.borderColor = "rgba(99, 255, 0, 0.5)";
-          e.currentTarget.style.boxShadow = "0 0 20px rgba(99, 255, 0, 0.3)";
+          e.currentTarget.style.background = "rgba(0, 242, 255, 0.2)";
+          e.currentTarget.style.borderColor = "rgba(0, 242, 255, 0.5)";
+          e.currentTarget.style.boxShadow = "0 0 20px rgba(0, 242, 255, 0.3)";
           e.currentTarget.style.transform = "translateY(-2px)";
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.background = "rgba(99, 255, 0, 0.1)";
-          e.currentTarget.style.borderColor = "rgba(99, 255, 0, 0.3)";
+          e.currentTarget.style.background = "rgba(0, 242, 255, 0.1)";
+          e.currentTarget.style.borderColor = "rgba(0, 242, 255, 0.3)";
           e.currentTarget.style.boxShadow = "none";
           e.currentTarget.style.transform = "translateY(0)";
         }}
       >
         How global matching works
       </button>
+
+      {/* Author Footer */}
+      <div style={{
+        marginTop: "1rem",
+        fontSize: "0.7rem",
+        opacity: 0.5,
+        color: "white",
+        fontFamily: "Audiowide, sans-serif",
+        textAlign: "center"
+      }}>
+        By Shubham Upadhyay
+      </div>
+
 
       {/* Login Form */}
       <div
@@ -262,7 +275,7 @@ export function LoginPage() {
           backdropFilter: "blur(10px)",
           borderRadius: "20px",
           padding: "2.5rem",
-          border: "1px solid rgba(99, 255, 0, 0.2)",
+          border: "1px solid rgba(0, 242, 255, 0.2)",
           boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)",
         }}
       >
@@ -274,7 +287,7 @@ export function LoginPage() {
             margin: 0,
             marginBottom: "1.5rem",
             textAlign: "center",
-            color: "#63ff00",
+            color: "#00f2ff",
           }}
         >
           {viewMode === "login" && "Sign In"}
@@ -306,9 +319,9 @@ export function LoginPage() {
             style={{
               padding: "0.75rem 1rem",
               borderRadius: "10px",
-              backgroundColor: "rgba(99, 255, 0, 0.2)",
-              border: "1px solid rgba(99, 255, 0, 0.5)",
-              color: "#63ff00",
+              backgroundColor: "rgba(0, 242, 255, 0.2)",
+              border: "1px solid rgba(0, 242, 255, 0.5)",
+              color: "#00f2ff",
               fontSize: "0.9rem",
               marginBottom: "1rem",
               textAlign: "center",
@@ -357,7 +370,7 @@ export function LoginPage() {
                 width: "100%",
                 padding: "0.75rem 1rem",
                 borderRadius: "10px",
-                border: "1px solid rgba(99, 255, 0, 0.3)",
+                border: "1px solid rgba(0, 242, 255, 0.3)",
                 background: "rgba(0, 0, 0, 0.3)",
                 color: "white",
                 fontSize: "1rem",
@@ -366,10 +379,10 @@ export function LoginPage() {
                 transition: "border-color 0.3s ease",
               }}
               onFocus={(e) => {
-                e.currentTarget.style.borderColor = "rgba(99, 255, 0, 0.6)";
+                e.currentTarget.style.borderColor = "rgba(0, 242, 255, 0.6)";
               }}
               onBlur={(e) => {
-                e.currentTarget.style.borderColor = "rgba(99, 255, 0, 0.3)";
+                e.currentTarget.style.borderColor = "rgba(0, 242, 255, 0.3)";
               }}
               placeholder="your@email.com"
             />
@@ -400,7 +413,7 @@ export function LoginPage() {
                 width: "100%",
                 padding: "0.75rem 1rem",
                 borderRadius: "10px",
-                border: "1px solid rgba(99, 255, 0, 0.3)",
+                border: "1px solid rgba(0, 242, 255, 0.3)",
                 background: "rgba(0, 0, 0, 0.3)",
                 color: "white",
                 fontSize: "1rem",
@@ -409,10 +422,10 @@ export function LoginPage() {
                 transition: "border-color 0.3s ease",
               }}
               onFocus={(e) => {
-                e.currentTarget.style.borderColor = "rgba(99, 255, 0, 0.6)";
+                e.currentTarget.style.borderColor = "rgba(0, 242, 255, 0.6)";
               }}
               onBlur={(e) => {
-                e.currentTarget.style.borderColor = "rgba(99, 255, 0, 0.3)";
+                e.currentTarget.style.borderColor = "rgba(0, 242, 255, 0.3)";
               }}
               placeholder="••••••••"
             />
@@ -443,7 +456,7 @@ export function LoginPage() {
                   width: "100%",
                   padding: "0.75rem 1rem",
                   borderRadius: "10px",
-                  border: "1px solid rgba(99, 255, 0, 0.3)",
+                  border: "1px solid rgba(0, 242, 255, 0.3)",
                   background: "rgba(0, 0, 0, 0.3)",
                   color: "white",
                   fontSize: "1rem",
@@ -452,10 +465,10 @@ export function LoginPage() {
                   transition: "border-color 0.3s ease",
                 }}
                 onFocus={(e) => {
-                  e.currentTarget.style.borderColor = "rgba(99, 255, 0, 0.6)";
+                  e.currentTarget.style.borderColor = "rgba(0, 242, 255, 0.6)";
                 }}
                 onBlur={(e) => {
-                  e.currentTarget.style.borderColor = "rgba(99, 255, 0, 0.3)";
+                  e.currentTarget.style.borderColor = "rgba(0, 242, 255, 0.3)";
                 }}
                 placeholder="username"
               />
@@ -488,7 +501,7 @@ export function LoginPage() {
                   width: "100%",
                   padding: "0.75rem 1rem",
                   borderRadius: "10px",
-                  border: "1px solid rgba(99, 255, 0, 0.3)",
+                  border: "1px solid rgba(0, 242, 255, 0.3)",
                   background: "rgba(0, 0, 0, 0.3)",
                   color: "white",
                   fontSize: "1rem",
@@ -497,10 +510,10 @@ export function LoginPage() {
                   transition: "border-color 0.3s ease",
                 }}
                 onFocus={(e) => {
-                  e.currentTarget.style.borderColor = "rgba(99, 255, 0, 0.6)";
+                  e.currentTarget.style.borderColor = "rgba(0, 242, 255, 0.6)";
                 }}
                 onBlur={(e) => {
-                  e.currentTarget.style.borderColor = "rgba(99, 255, 0, 0.3)";
+                  e.currentTarget.style.borderColor = "rgba(0, 242, 255, 0.3)";
                 }}
                 placeholder="••••••••"
               />
@@ -518,7 +531,7 @@ export function LoginPage() {
                 }}
                 style={{
                   fontSize: "0.85rem",
-                  color: "#63ff00",
+                  color: "#00f2ff",
                   textDecoration: "none",
                   opacity: 0.8,
                   background: "transparent",
@@ -545,7 +558,7 @@ export function LoginPage() {
               width: "100%",
               marginTop: "0.5rem",
               // Outer glow
-              filter: isLoading ? "none" : "drop-shadow(0 4px 20px rgba(99, 255, 0, 0.15)) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2))",
+              filter: isLoading ? "none" : "drop-shadow(0 4px 20px rgba(0, 242, 255, 0.15)) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2))",
               transition: "transform 0.2s ease, filter 0.2s ease",
               opacity: isLoading ? 0.7 : 1,
             }}
@@ -553,14 +566,14 @@ export function LoginPage() {
               if (!isLoading) {
                 e.currentTarget.style.transform = "translateY(-2px)";
                 e.currentTarget.style.filter =
-                  "drop-shadow(0 6px 28px rgba(99, 255, 0, 0.25)) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25))";
+                  "drop-shadow(0 6px 28px rgba(0, 242, 255, 0.25)) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25))";
               }
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = "translateY(0)";
               e.currentTarget.style.filter = isLoading
                 ? "none"
-                : "drop-shadow(0 4px 20px rgba(99, 255, 0, 0.15)) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2))";
+                : "drop-shadow(0 4px 20px rgba(0, 242, 255, 0.15)) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2))";
             }}
           >
             {/* Border layer - gradient border wrapper */}
@@ -573,7 +586,7 @@ export function LoginPage() {
                   right: "-1px",
                   bottom: "-1px",
                   borderRadius: "12px",
-                  background: "linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(99, 255, 0, 0.8) 30%, rgba(99, 255, 0, 0.9) 50%, rgba(99, 255, 0, 0.8) 70%, rgba(255, 255, 255, 0.4) 100%)",
+                  background: "linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(0, 242, 255, 0.8) 30%, rgba(0, 242, 255, 0.9) 50%, rgba(0, 242, 255, 0.8) 70%, rgba(255, 255, 255, 0.4) 100%)",
                   zIndex: 0,
                   pointerEvents: "none",
                 }}
@@ -597,8 +610,8 @@ export function LoginPage() {
                 overflow: "hidden",
                 // Glassy fill with gradient
                 background: isLoading
-                  ? "rgba(99, 255, 0, 0.1)"
-                  : "linear-gradient(135deg, rgba(99, 255, 0, 0.12) 0%, rgba(82, 215, 0, 0.08) 50%, rgba(99, 255, 0, 0.1) 100%)",
+                  ? "rgba(0, 242, 255, 0.1)"
+                  : "linear-gradient(135deg, rgba(0, 242, 255, 0.12) 0%, rgba(82, 215, 0, 0.08) 50%, rgba(0, 242, 255, 0.1) 100%)",
                 backdropFilter: "blur(12px)",
                 WebkitBackdropFilter: "blur(12px)",
                 // Cover the border gradient inside
@@ -606,7 +619,7 @@ export function LoginPage() {
                 // Inner shadows for depth
                 boxShadow: isLoading
                   ? "inset 0 2px 4px rgba(0, 0, 0, 0.2)"
-                  : "inset 0 1px 2px rgba(255, 255, 255, 0.3), inset 0 -1px 2px rgba(0, 0, 0, 0.2), inset 0 0 20px rgba(99, 255, 0, 0.05)",
+                  : "inset 0 1px 2px rgba(255, 255, 255, 0.3), inset 0 -1px 2px rgba(0, 0, 0, 0.2), inset 0 0 20px rgba(0, 242, 255, 0.05)",
                 zIndex: 1,
               }}
             >
@@ -677,7 +690,7 @@ export function LoginPage() {
               style={{
                 flex: 1,
                 height: "1px",
-                backgroundColor: "rgba(99, 255, 0, 0.2)",
+                backgroundColor: "rgba(0, 242, 255, 0.2)",
               }}
             />
             <span
@@ -693,7 +706,7 @@ export function LoginPage() {
               style={{
                 flex: 1,
                 height: "1px",
-                backgroundColor: "rgba(99, 255, 0, 0.2)",
+                backgroundColor: "rgba(0, 242, 255, 0.2)",
               }}
             />
           </div>
@@ -772,7 +785,7 @@ export function LoginPage() {
           style={{
             marginTop: "1.5rem",
             paddingTop: "1.5rem",
-            borderTop: "1px solid rgba(99, 255, 0, 0.2)",
+            borderTop: "1px solid rgba(0, 242, 255, 0.2)",
             textAlign: "center",
           }}
         >
@@ -786,7 +799,7 @@ export function LoginPage() {
                   setViewMode("signup");
                 }}
                 style={{
-                  color: "#63ff00",
+                  color: "#00f2ff",
                   textDecoration: "none",
                   fontFamily: "Audiowide, sans-serif",
                   fontWeight: 400,
@@ -817,7 +830,7 @@ export function LoginPage() {
                   setViewMode("login");
                 }}
                 style={{
-                  color: "#63ff00",
+                  color: "#00f2ff",
                   textDecoration: "none",
                   fontFamily: "Audiowide, sans-serif",
                   fontWeight: 400,
@@ -848,7 +861,7 @@ export function LoginPage() {
                   setViewMode("login");
                 }}
                 style={{
-                  color: "#63ff00",
+                  color: "#00f2ff",
                   textDecoration: "none",
                   fontFamily: "Audiowide, sans-serif",
                   fontWeight: 400,

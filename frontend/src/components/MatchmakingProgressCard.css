@@ -7,21 +7,21 @@
   background: rgba(17, 24, 39, 0.95);
   backdrop-filter: blur(20px);
   border-radius: 24px;
-  border: 1px solid rgba(99, 255, 0, 0.2);
+  border: 1px solid rgba(0, 242, 255, 0.2);
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.4),
-    inset 0 0 20px rgba(99, 255, 0, 0.05);
+    inset 0 0 20px rgba(0, 242, 255, 0.05);
   padding: 3rem 2.5rem;
   box-sizing: border-box;
   transition: all 0.3s ease;
 }
 
 .matchmaking-progress-card:hover {
-  border-color: rgba(99, 255, 0, 0.3);
+  border-color: rgba(0, 242, 255, 0.3);
   box-shadow: 
     0 12px 40px rgba(0, 0, 0, 0.5),
-    inset 0 0 30px rgba(99, 255, 0, 0.1),
-    0 0 20px rgba(99, 255, 0, 0.2);
+    inset 0 0 30px rgba(0, 242, 255, 0.1),
+    0 0 20px rgba(0, 242, 255, 0.2);
 }
 
 .matchmaking-progress-content {
@@ -36,9 +36,9 @@
   font-family: "Audiowide", sans-serif;
   font-size: 1.75rem;
   font-weight: 400;
-  color: #63ff00;
+  color: #00f2ff;
   margin: 0;
-  text-shadow: 0 0 20px rgba(99, 255, 0, 0.5);
+  text-shadow: 0 0 20px rgba(0, 242, 255, 0.5);
   letter-spacing: 0.02em;
 }
 
@@ -70,7 +70,7 @@
 }
 
 .matchmaking-progress-queue-separator {
-  color: rgba(99, 255, 0, 0.5);
+  color: rgba(0, 242, 255, 0.5);
   font-weight: bold;
 }
 

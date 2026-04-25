@@ -19,7 +19,7 @@ export type ProfileShape = {
 };
 
 export const defaultProfile: ProfileShape = {
-  name: "FitDuo User",
+  name: "FitForge User",
   handle: "fitduo_player01",
   tagline:
     "Pushing limits, one rep at a time. Matching with partners that keep me honest.",

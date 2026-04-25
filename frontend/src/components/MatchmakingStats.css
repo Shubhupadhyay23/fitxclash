@@ -21,7 +21,7 @@
 .matchmaking-stats-heading {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #63ff00;
+  color: #00f2ff;
   font-family: "Audiowide", sans-serif;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -60,8 +60,8 @@
 }
 
 .matchmaking-stat-row:hover {
-  background: radial-gradient(circle at left, rgba(99, 255, 0, 0.16), #020617);
-  box-shadow: 0 0 10px rgba(99, 255, 0, 0.4);
+  background: radial-gradient(circle at left, rgba(0, 242, 255, 0.16), #020617);
+  box-shadow: 0 0 10px rgba(0, 242, 255, 0.4);
   transform: translateY(-1px);
   }
 
@@ -82,8 +82,8 @@
   width: 22px;
   height: 22px;
   border-radius: 999px;
-  background: rgba(99, 255, 0, 0.12);
-  color: #63ff00;
+  background: rgba(0, 242, 255, 0.12);
+  color: #00f2ff;
 }
 
 .matchmaking-stat-value {

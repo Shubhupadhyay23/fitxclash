@@ -67,21 +67,21 @@
   box-shadow: 0 0 30px rgba(255, 0, 110, 0.5);
 }
 
-/* Success - Green (FitDuo theme #63ff00) */
+/* Success - Green (FitForge theme #00f2ff) */
 .shimmer-wrapper--success {
   background: linear-gradient(
     90deg,
-    rgba(99, 255, 0, 0.2) 0%,
-    rgba(99, 255, 0, 1) 25%,
-    rgba(99, 255, 0, 1) 50%,
-    rgba(99, 255, 0, 0.2) 75%,
-    rgba(99, 255, 0, 0.2) 100%
+    rgba(0, 242, 255, 0.2) 0%,
+    rgba(0, 242, 255, 1) 25%,
+    rgba(0, 242, 255, 1) 50%,
+    rgba(0, 242, 255, 0.2) 75%,
+    rgba(0, 242, 255, 0.2) 100%
   );
-  box-shadow: 0 0 20px rgba(99, 255, 0, 0.3);
+  box-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
 }
 
 .shimmer-wrapper--success:hover {
-  box-shadow: 0 0 30px rgba(99, 255, 0, 0.5);
+  box-shadow: 0 0 30px rgba(0, 242, 255, 0.5);
 }
 
 /* Rainbow - Multi-color */
@@ -90,20 +90,20 @@
     90deg,
     #ff006e 0%,
     #00d9ff 25%,
-    #63ff00 50%,
+    #00f2ff 50%,
     #ffb800 75%,
     #ff006e 100%
   );
   animation-duration: 4s;
   box-shadow: 
     0 0 20px rgba(255, 0, 110, 0.3),
-    0 0 30px rgba(99, 255, 0, 0.2);
+    0 0 30px rgba(0, 242, 255, 0.2);
 }
 
 .shimmer-wrapper--rainbow:hover {
   box-shadow: 
     0 0 30px rgba(255, 0, 110, 0.4),
-    0 0 40px rgba(99, 255, 0, 0.3);
+    0 0 40px rgba(0, 242, 255, 0.3);
 }
 
 /* ============================================
@@ -113,7 +113,7 @@
 .shimmer-btn {
   background: rgba(0, 0, 0, 0.4);
   border: none;
-  color: #63ff00;
+  color: #00f2ff;
   padding: 1rem 2rem;
   font-size: 1rem;
   font-weight: 600;
@@ -123,7 +123,7 @@
   width: 100%;
   display: block;
   font-family: 'Audiowide', sans-serif;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 0 8px rgba(99, 255, 0, 0.3);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 0 8px rgba(0, 242, 255, 0.3);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
@@ -264,7 +264,7 @@
 }
 
 .shimmer-input-icon {
-  color: #63ff00;
+  color: #00f2ff;
   font-size: 1.2rem;
   display: flex;
   align-items: center;
@@ -308,13 +308,13 @@
 }
 
 .shimmer-wrapper--success:focus-within {
-  box-shadow: 0 0 30px rgba(99, 255, 0, 0.6);
+  box-shadow: 0 0 30px rgba(0, 242, 255, 0.6);
 }
 
 .shimmer-wrapper--rainbow:focus-within {
   box-shadow: 
     0 0 35px rgba(255, 0, 110, 0.5),
-    0 0 45px rgba(99, 255, 0, 0.4);
+    0 0 45px rgba(0, 242, 255, 0.4);
 }
 
 /* ============================================
@@ -379,13 +379,13 @@
   }
   
   .shimmer-wrapper--rainbow {
-    background: linear-gradient(135deg, #63ff00, #00d9ff);
+    background: linear-gradient(135deg, #00f2ff, #00d9ff);
   }
 }
 
 /* Keyboard focus indicators */
 .shimmer-btn:focus-visible {
-  outline: 2px solid #63ff00;
+  outline: 2px solid #00f2ff;
   outline-offset: 2px;
 }
 

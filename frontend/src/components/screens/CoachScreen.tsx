@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { ShimmerButton, ShimmerCard } from "../ShimmerComponents";
+import { AIChatAssistant } from "../AI/AIChatAssistant";
+import { Bot } from "lucide-react";
 
 type Exercise = {
   id: string;
@@ -28,6 +30,7 @@ const exercises: Exercise[] = [
 export function CoachScreen() {
   const [selectedExercise, setSelectedExercise] = useState<string | null>(null);
   const [isActive, setIsActive] = useState(false);
+  const [showAIChat, setShowAIChat] = useState(false);
 
   const handleStart = (exerciseId: string) => {
     setSelectedExercise(exerciseId);
@@ -57,18 +60,18 @@ export function CoachScreen() {
             padding: "1.5rem 2rem",
             display: "flex",
             justifyContent: "space-between",
-            borderBottom: "1px solid rgba(99, 255, 0, 0.2)",
+            borderBottom: "1px solid rgba(0, 242, 255, 0.2)",
           }}
         >
           <div>
-            <h3 style={{ margin: 0, color: "#63ff00" }}>{exercise?.name}</h3>
+            <h3 style={{ margin: 0, color: "#00f2ff" }}>{exercise?.name}</h3>
             <p style={{ margin: "0.5rem 0 0 0", opacity: 0.8, fontSize: "0.875rem" }}>
               {exercise?.description}
             </p>
           </div>
           <div style={{ textAlign: "right" }}>
             <div style={{ fontSize: "0.875rem", opacity: 0.8 }}>Reps</div>
-            <div style={{ fontSize: "2rem", color: "#63ff00" }}>0</div>
+            <div style={{ fontSize: "2rem", color: "#00f2ff" }}>0</div>
           </div>
         </div>
 
@@ -84,12 +87,12 @@ export function CoachScreen() {
         >
           <div
             style={{
-              backgroundColor: "rgba(99, 255, 0, 0.1)",
+              backgroundColor: "rgba(0, 242, 255, 0.1)",
               borderRadius: "20px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              border: "1px solid rgba(99, 255, 0, 0.2)",
+              border: "1px solid rgba(0, 242, 255, 0.2)",
             }}
           >
             <div style={{ textAlign: "center" }}>
@@ -104,14 +107,14 @@ export function CoachScreen() {
               backgroundColor: "rgba(17, 24, 39, 0.8)",
               borderRadius: "20px",
               padding: "1.5rem",
-              border: "1px solid rgba(99, 255, 0, 0.2)",
+              border: "1px solid rgba(0, 242, 255, 0.2)",
             }}
           >
-            <h4 style={{ margin: "0 0 1rem 0", color: "#63ff00" }}>Live Tips</h4>
+            <h4 style={{ margin: "0 0 1rem 0", color: "#00f2ff" }}>Live Tips</h4>
             <div
               style={{
                 padding: "1rem",
-                backgroundColor: "rgba(99, 255, 0, 0.1)",
+                backgroundColor: "rgba(0, 242, 255, 0.1)",
                 borderRadius: "12px",
                 marginBottom: "1rem",
               }}
@@ -122,11 +125,11 @@ export function CoachScreen() {
             </div>
 
             <div style={{ marginTop: "2rem" }}>
-              <h4 style={{ margin: "0 0 1rem 0", color: "#63ff00" }}>Form Meter</h4>
+              <h4 style={{ margin: "0 0 1rem 0", color: "#00f2ff" }}>Form Meter</h4>
               <div
                 style={{
                   height: "8px",
-                  backgroundColor: "rgba(99, 255, 0, 0.2)",
+                  backgroundColor: "rgba(0, 242, 255, 0.2)",
                   borderRadius: "4px",
                   overflow: "hidden",
                 }}
@@ -135,7 +138,7 @@ export function CoachScreen() {
                   style={{
                     height: "100%",
                     width: "75%",
-                    backgroundColor: "#63ff00",
+                    backgroundColor: "#00f2ff",
                     borderRadius: "4px",
                   }}
                 />
@@ -161,9 +164,9 @@ export function CoachScreen() {
             style={{
               padding: "0.875rem 2rem",
               borderRadius: "12px",
-              border: "1px solid rgba(99, 255, 0, 0.5)",
+              border: "1px solid rgba(0, 242, 255, 0.5)",
               background: "transparent",
-              color: "#63ff00",
+              color: "#00f2ff",
               fontFamily: "Audiowide, sans-serif",
               cursor: "pointer",
             }}
@@ -191,7 +194,7 @@ export function CoachScreen() {
           fontWeight: 400,
           margin: 0,
           marginBottom: "0.5rem",
-          color: "#63ff00",
+          color: "#00f2ff",
         }}
       >
         <span className="ai-heading-clip-text">AI Coach</span>
@@ -220,7 +223,7 @@ export function CoachScreen() {
                 fontWeight: 600,
                 margin: 0,
                 marginBottom: "0.5rem",
-                color: "#63ff00",
+                color: "#00f2ff",
               }}
             >
               {exercise.name}
@@ -237,7 +240,20 @@ export function CoachScreen() {
           </ShimmerCard>
         ))}
       </div>
+
+      {/* AI Assistant Toggle Button */}
+      <div className="fixed bottom-24 right-4 z-[90]">
+        <Button
+          onClick={() => setShowAIChat(!showAIChat)}
+          className="rounded-full w-14 h-14 bg-cyan-600 hover:bg-cyan-500 text-black shadow-xl shadow-cyan-500/20"
+        >
+          <Bot size={28} />
+        </Button>
+      </div>
+
+      {showAIChat && <AIChatAssistant onClose={() => setShowAIChat(false)} />}
     </div>
   );
 }
+
 

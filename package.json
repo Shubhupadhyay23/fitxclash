@@ -1,6 +1,7 @@
 {
-  "name": "fitduo",
+  "name": "fitforge",
   "version": "1.0.0",
+  "author": "Shubham Upadhyay",
   "private": true,
   "scripts": {
     "dev": "cd frontend && npm run dev",

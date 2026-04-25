@@ -14,10 +14,10 @@ type BottomNavProps = {
   fixed?: boolean;
 };
 
-// Default navigation items for FitDuo
+// Default navigation items for FitForge
 const defaultItems: NavItem[] = [
   {
-    key: "workout",
+    key: "recommendation",
     icon: (
       <svg
         viewBox="0 0 24 24"
@@ -27,30 +27,24 @@ const defaultItems: NavItem[] = [
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        {/* Dumbbell icon */}
-        {/* Left plates */}
-        <rect x="2.5" y="8" width="2.5" height="8" rx="0.8" />
-        <rect x="5.2" y="9" width="1.8" height="6" rx="0.9" />
-        {/* Right plates */}
-        <rect x="19" y="8" width="2.5" height="8" rx="0.8" />
-        <rect x="16.9" y="9" width="1.8" height="6" rx="0.9" />
-        {/* Bar */}
-        <rect x="7.3" y="10.3" width="9.4" height="3.4" rx="1.1" />
+        {/* Sparkles / AI recommendation icon */}
+        <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
+        <path d="m5 3 1 1" />
+        <path d="m19 3-1 1" />
+        <path d="m5 21 1-1" />
+        <path d="m19 21-1-1" />
       </svg>
     ),
   },
   {
-    key: "time",
+    key: "dashboard",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        {/* Timer body */}
-        <circle cx="12" cy="13" r="7"></circle>
-        {/* Top bar/handle */}
-        <rect x="9" y="4" width="6" height="2" rx="1" ry="1"></rect>
-        {/* Crown button */}
-        <line x1="15" y1="4" x2="17" y2="2"></line>
-        {/* Timer hand */}
-        <polyline points="12 13 12 9 15 11"></polyline>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        {/* Chart / Dashboard icon */}
+        <rect width="7" height="9" x="3" y="3" rx="1" />
+        <rect width="7" height="5" x="14" y="3" rx="1" />
+        <rect width="7" height="9" x="14" y="12" rx="1" />
+        <rect width="7" height="5" x="3" y="16" rx="1" />
       </svg>
     ),
   },

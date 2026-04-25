@@ -1,6 +1,6 @@
 # Player Database Configuration
 
-This document describes the database setup for individual player data in FitDuo.
+This document describes the database setup for individual player data in FitForge.
 
 ## Overview
 

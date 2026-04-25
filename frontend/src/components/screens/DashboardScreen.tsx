@@ -54,7 +54,7 @@ export function DashboardScreen() {
             <CardTitle className="text-sm font-medium text-neutral-300">WEEKLY REP VOLUME</CardTitle>
           </CardHeader>
           <CardContent className="h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
               <AreaChart data={data}>
                 <defs>
                   <linearGradient id="colorReps" x1="0" y1="0" x2="0" y2="1">
@@ -81,7 +81,7 @@ export function DashboardScreen() {
             <CardTitle className="text-sm font-medium text-neutral-300">INTENSITY TREND</CardTitle>
           </CardHeader>
           <CardContent className="h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
               <BarChart data={data}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#333" vertical={false} />
                 <XAxis dataKey="name" stroke="#666" fontSize={12} />

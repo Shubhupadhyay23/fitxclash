@@ -148,10 +148,11 @@ export function CoachScreen() {
 
             detectorRef.current.startDetection();
             setIsCameraReady(true);
-        } catch (err) {
-            console.error("Coach CV Error:", err);
-            const errorMessage = err instanceof Error ? err.message : "Camera Error: Please check permissions.";
-            setFormFeedback(errorMessage);
+        } catch (err: any) {
+            console.error("❌ Coach CV Error:", err);
+            const errorMessage = err?.message || (typeof err === 'string' ? err : JSON.stringify(err)) || "Unknown camera error";
+            setFormFeedback(`Camera Error: ${errorMessage}`);
+            setIsCameraReady(false);
         }
     };
 

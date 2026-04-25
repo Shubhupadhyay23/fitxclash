@@ -68,16 +68,21 @@ export class CVDetector {
       const useGPU = !isMobile; // Use GPU on desktop, CPU on mobile for better compatibility
       
       console.log(`🤖 Creating PoseLandmarker (Delegate: ${useGPU ? "GPU" : "CPU"})...`);
-      this.sharedPoseLandmarker = await PoseLandmarker.createFromOptions(vision, {
-        baseOptions: {
-          modelAssetPath: `https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task`,
-          delegate: useGPU ? "GPU" : "CPU",
-        },
-        runningMode: "VIDEO",
-        numPoses: 1,
-      });
-      console.log("✅ MediaPipe assets loaded successfully");
-      return this.sharedPoseLandmarker;
+      try {
+        this.sharedPoseLandmarker = await PoseLandmarker.createFromOptions(vision, {
+          baseOptions: {
+            modelAssetPath: `https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task`,
+            delegate: useGPU ? "GPU" : "CPU",
+          },
+          runningMode: "VIDEO",
+          numPoses: 1,
+        });
+        console.log("✅ MediaPipe assets loaded successfully");
+        return this.sharedPoseLandmarker;
+      } catch (error) {
+        console.error("❌ PoseLandmarker.createFromOptions failed:", error);
+        throw error;
+      }
     })();
 
     return this.initPromise;

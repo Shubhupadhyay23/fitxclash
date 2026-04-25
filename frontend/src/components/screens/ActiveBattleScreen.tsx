@@ -1164,19 +1164,16 @@ export function ActiveBattleScreen() {
           });
 
           detectorRef.current = detector;
-          setIsCVReady(true);
-          setCvError(null);
-          
-          console.log("✅ CV Detector initialized");
-        }
-      } catch (error) {
-        console.error("Failed to initialize CV:", error);
+      } catch (err: any) {
+        console.error("❌ CV Init Error:", err);
+        setFormFeedback(`Camera Error: ${err?.message || "Failed to start"}`);
+        
         let errorMessage = "Failed to initialize camera";
         
-        if (error instanceof Error) {
-          if (error.name === "NotAllowedError" || error.name === "PermissionDeniedError") {
+        if (err instanceof Error) {
+          if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
             errorMessage = "Camera permission denied. Please allow camera access in your browser settings.";
-          } else if (error.name === "NotFoundError" || error.name === "DevicesNotFoundError") {
+          } else if (err.name === "NotFoundError" || err.name === "DevicesNotFoundError") {
             errorMessage = "No camera found. Please connect a camera and try again.";
           } else if (error.name === "NotReadableError" || error.name === "TrackStartError") {
             errorMessage = "Camera is being used by another application. Please close other apps using the camera.";

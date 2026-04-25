@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     # CORS Configuration
     # Can be set via CORS_ORIGINS env var (comma-separated)
     # Default to localhost for development + production domains
-    cors_origins: str = "http://localhost:5173,http://localhost:5174,http://localhost:3000,http://localhost:8080,https://fit-duo-ashen.vercel.app,https://mymuscleshurt.tech"
+    cors_origins: str = "http://localhost:5173,http://localhost:5174,http://localhost:3000,http://localhost:8080,https://fitxclash.vercel.app"
     
     # Database (will be configured later)
     database_url: Optional[str] = None

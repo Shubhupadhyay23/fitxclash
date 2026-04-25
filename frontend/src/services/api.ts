@@ -1,7 +1,12 @@
 import axios from "axios";
 import { auth } from "../config/firebase";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || "http://localhost:8000";
+let API_BASE_URL = import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || "http://localhost:8000";
+
+// Sanitize: ensure no trailing slash
+if (API_BASE_URL.endsWith("/")) {
+  API_BASE_URL = API_BASE_URL.slice(0, -1);
+}
 
 const api = axios.create({
   baseURL: API_BASE_URL,

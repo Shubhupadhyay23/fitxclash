@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Send, User, Bot, X } from 'lucide-react';
@@ -54,7 +54,7 @@ export function AIChatAssistant({ onClose }: { onClose: () => void }) {
         <CardTitle className="text-lg audiowide-regular text-cyan-400 flex items-center">
           <Bot className="mr-2 h-5 w-5" /> FORGEBOT
         </CardTitle>
-        <Button variant="ghost" size="icon" onClick={onClose} className="h-8 w-8 text-neutral-400 hover:text-white">
+        <Button variant="outline" size="sm" onClick={onClose} className="h-8 w-8 p-0 text-neutral-400 hover:text-white flex items-center justify-center">
           <X className="h-4 w-4" />
         </Button>
       </CardHeader>

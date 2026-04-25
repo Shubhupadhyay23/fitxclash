@@ -311,7 +311,7 @@ export function BattleScreen({ onNavigateToProfile: _onNavigateToProfile }: { on
                     <ElectricButton onClick={handleFindRival} disabled={loading}>
                       {loading ? "Joining queue..." : "Find a Rival"}
                     </ElectricButton>
-                    <ElectricButton onClick={() => navigate("/app/solo")} variant="outline">
+                    <ElectricButton onClick={() => navigate("/app/solo")}>
                       Trial vs AI
                     </ElectricButton>
                   </div>

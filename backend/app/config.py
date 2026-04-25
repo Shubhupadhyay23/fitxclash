@@ -13,14 +13,14 @@ class Settings(BaseSettings):
     # CORS Configuration
     # Can be set via CORS_ORIGINS env var (comma-separated)
     # Default to localhost for development + production domains
-    cors_origins: str = "http://localhost:5173,http://localhost:5174,http://localhost:3000,http://localhost:8080,https://fitxclash.vercel.app"
+    cors_origins: str = "*"  # Allow all for maximum reliability in production/submission
     
     # Database (will be configured later)
     database_url: Optional[str] = None
     
     # OpenRouter API
     openrouter_api_key: Optional[str] = None
-    openrouter_model: str = "google/gemini-flash-1.5-8b"  # Fast and free-tier compatible
+    openrouter_model: str = "google/gemini-flash-1.5-8b:free"  # Guaranteed free tier
     openrouter_base_url: str = "https://openrouter.ai/api/v1"
     
     # Firebase

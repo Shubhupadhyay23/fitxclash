@@ -241,29 +241,27 @@ Commentary:"""
 
 
     def _parse_json_response(self, response: str) -> Dict:
-        """Extract JSON from LLM response"""
-        response = response.strip()
-        
-        # Remove markdown code blocks if present
-        if response.startswith("```"):
-            lines = response.split("\n")
-            response = "\n".join(lines[1:-1]) if len(lines) > 2 else response
-        
-        # Try to parse as JSON
+        """Extract JSON from LLM response more robustly"""
+        import re
         try:
-            return json.loads(response)
-        except json.JSONDecodeError:
-            # Try to extract JSON object
-            import re
-            json_match = re.search(r"\{[^{}]*\}", response)
-            if json_match:
-                try:
+            # First, try a clean load
+            response_clean = response.strip()
+            if response_clean.startswith("```"):
+                # Handle markdown blocks (json or just text)
+                blocks = re.findall(r"```(?:json)?\s*([\s\S]*?)\s*```", response_clean)
+                if blocks:
+                    response_clean = blocks[0]
+            
+            return json.loads(response_clean)
+        except Exception:
+            # Second, try to find { ... } pattern anywhere in text
+            try:
+                json_match = re.search(r"\{[\s\S]*\}", response)
+                if json_match:
                     return json.loads(json_match.group())
-                except json.JSONDecodeError:
-                    pass
+            except Exception as e:
+                logger.error(f"Final JSON parse attempt failed: {e}")
         
-        # Fallback: return empty dict
-        logger.warning(f"Failed to parse JSON from response: {response[:100]}")
         return {}
 
     def _get_default_form_rules(self, exercise_name: str) -> Dict[str, Dict[str, float]]:

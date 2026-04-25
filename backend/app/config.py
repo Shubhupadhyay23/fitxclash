@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     
     # OpenRouter API
     openrouter_api_key: Optional[str] = None
-    openrouter_model: str = "anthropic/claude-3-haiku"  # Default cost-effective model
+    openrouter_model: str = "google/gemini-flash-1.5-8b"  # Fast and free-tier compatible
     openrouter_base_url: str = "https://openrouter.ai/api/v1"
     
     # Firebase

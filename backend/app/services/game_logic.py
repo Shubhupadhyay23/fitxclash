@@ -112,7 +112,7 @@ async def handle_round_end(
     session.commit()
     session.refresh(game_session)
 
-    # Generate narrative using LLM
+    # Generate narrative using LLM (with fallback)
     round_result = {
         "winner": str(winner_id) if winner_id else "Tie",
         "loser": str(loser_id) if loser_id else "Tie",
@@ -120,24 +120,31 @@ async def handle_round_end(
         "loser_score": loser_score,
         "round": game_session.current_round,
     }
-    narrative = await llm_service.generate_narrative(round_result)
+    
+    try:
+        narrative = await llm_service.generate_narrative(round_result)
+    except Exception as e:
+        logger.error(f"Error generating narrative: {e}")
+        narrative = f"{'Battle intense!' if not winner_id else 'Winner takes it!'} The hype continues!"
 
     # Get available exercises for strategy recommendation
     exercises = session.exec(select(Exercise)).all()
-    available_exercises = [ex.name for ex in exercises] if exercises else ["push-ups", "pull-ups", "planks", "squats"]
+    available_exercises = [ex.name for ex in exercises] if exercises else ["push-ups", "squats", "plank", "lunge"]
 
-    # Determine player weakness for strategy (simplified - could use battle history)
-    player_b_weakness = None
-    if loser_id == game_session.player_b_id and winner_score > loser_score * 1.3:
-        player_b_weakness = "endurance"  # Could be determined from battle history
-    
-    # Generate strategy recommendation for next round
-    strategy = await llm_service.recommend_strategy(
-        player_a_score=game_session.player_a_score,
-        player_b_score=game_session.player_b_score,
-        player_b_weakness=player_b_weakness,
-        available_exercises=available_exercises,
-    )
+    # Generate strategy recommendation for next round (with fallback)
+    try:
+        strategy = await llm_service.recommend_strategy(
+            player_a_score=game_session.player_a_score,
+            player_b_score=game_session.player_b_score,
+            player_b_weakness=None,
+            available_exercises=available_exercises,
+        )
+    except Exception as e:
+        logger.error(f"Error generating strategy: {e}")
+        strategy = {
+            "exercise_id": available_exercises[0] if available_exercises else "push-ups",
+            "rationale": "Stick to basics and maintain form."
+        }
     
     # Apply dynamic difficulty (handicap for dominant player)
     if game_session.player_a_score > game_session.player_b_score * 1.5:

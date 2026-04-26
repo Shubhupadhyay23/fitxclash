@@ -113,6 +113,7 @@ export function ActiveBattleScreen() {
   } | null>(null);
   const [roundEndCountdown, setRoundEndCountdown] = useState(5); // 5 second countdown after round ends
   const [showGameOver, setShowGameOver] = useState(false);
+  const [demoMode, setDemoMode] = useState(false);
   const [debugEndState, setDebugEndState] = useState<"victory" | "defeat" | "tie" | null>(null);
   const sendRepIncrementRef = useRef<((repCount: number) => void) | null>(null);
   const sendRoundEndRef = useRef<(() => void) | null>(null);
@@ -1069,15 +1070,22 @@ export function ActiveBattleScreen() {
 
     const initCV = async () => {
       try {
-        console.log("🎥 Requesting webcam access...");
-        // Request webcam access with mobile-friendly constraints
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: {
-            width: { ideal: 640 },
-            height: { ideal: 480 },
-            facingMode: "user", // Front-facing camera on mobile
-          },
-        });
+        // Request webcam access with robust fallback constraints
+        let stream;
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+              width: { ideal: 640 },
+              height: { ideal: 480 },
+              facingMode: "user",
+            },
+          });
+        } catch (initialErr) {
+          console.warn("⚠️ Preferred constraints failed, trying with defaults...", initialErr);
+          stream = await navigator.mediaDevices.getUserMedia({
+            video: true
+          });
+        }
         
         if (isCancelled) {
           stream.getTracks().forEach(t => t.stop());
@@ -1162,41 +1170,41 @@ export function ActiveBattleScreen() {
               (detectorRef.current as any).latestResult = result;
             }
           });
+          
+          if (demoMode) {
+            console.log("🎬 Starting Demo Mode in Battle...");
+            videoRef.current.srcObject = null;
+            videoRef.current.src = "https://v.ftmcdn.net/06/18/88/6188827/v1.mp4";
+            videoRef.current.loop = true;
+            await new Promise(r => videoRef.current!.oncanplay = r);
+            detector.startDetection();
+            setIsCVReady(true);
+            detectorRef.current = detector;
+            return;
+          }
 
           detectorRef.current = detector;
       } catch (err: any) {
         console.error("❌ CV Init Error:", err);
-        setFormFeedback(`Camera Error: ${err?.message || "Failed to start"}`);
         
         let errorMessage = "Failed to initialize camera";
         
-        if (err instanceof Error) {
-          if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
-            errorMessage = "Camera permission denied. Please allow camera access in your browser settings.";
-          } else if (err.name === "NotFoundError" || err.name === "DevicesNotFoundError") {
+        if (err instanceof Error || (err && err.name)) {
+          const errorName = err.name;
+          if (errorName === "NotAllowedError" || errorName === "PermissionDeniedError") {
+            errorMessage = "Camera permission denied. Please allow camera access in your browser settings. (MacOS: Check System Settings > Privacy > Camera)";
+          } else if (errorName === "NotFoundError" || errorName === "DevicesNotFoundError") {
             errorMessage = "No camera found. Please connect a camera and try again.";
-          } else if (error.name === "NotReadableError" || error.name === "TrackStartError") {
+          } else if (errorName === "NotReadableError" || errorName === "TrackStartError") {
             errorMessage = "Camera is being used by another application. Please close other apps using the camera.";
-          } else if (error.name === "OverconstrainedError" || error.name === "ConstraintNotSatisfiedError") {
+          } else if (errorName === "OverconstrainedError" || errorName === "ConstraintNotSatisfiedError") {
             errorMessage = "Camera doesn't support required settings. Trying with default settings...";
-            // Try again with minimal constraints
-            try {
-              const fallbackStream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: "user" },
-              });
-              if (videoRef.current) {
-                videoRef.current.srcObject = fallbackStream;
-                // Retry initialization with fallback stream
-                // (You might want to call initCV again here or handle it differently)
-              }
-            } catch (fallbackError) {
-              errorMessage = error.message || "Failed to initialize camera";
-            }
           } else {
-            errorMessage = error.message || "Failed to initialize camera";
+            errorMessage = err.message || "Failed to initialize camera";
           }
         }
         
+        setFormFeedback(`Camera Error: ${errorMessage}`);
         setCvError(errorMessage);
         setIsCVReady(false);
       }
@@ -1216,7 +1224,7 @@ export function ActiveBattleScreen() {
         stream.getTracks().forEach((track) => track.stop());
       }
     };
-  }, [gameId, selectedExercise]);
+  }, [gameId, selectedExercise, demoMode]);
 
   // Game Over Screen
   if ((showGameOver || debugEndState === "victory" || debugEndState === "defeat") && (roundEndData || debugEndState)) {
@@ -2589,6 +2597,17 @@ export function ActiveBattleScreen() {
               {!isCVReady && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black/60 text-xs text-cyan-400">
                   {cvError ? "Camera Error" : "Initializing CV..."}
+                </div>
+              )}
+              {cvError && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/90 p-4 text-center z-30">
+                  <p className="text-[10px] text-red-400 mb-4 px-2 leading-tight">{cvError}</p>
+                  <button 
+                    onClick={() => setDemoMode(true)}
+                    className="px-3 py-1.5 bg-cyan-600 text-white text-[10px] rounded-lg font-bold hover:bg-cyan-500 transition-colors uppercase tracking-widest shadow-lg shadow-cyan-950"
+                  >
+                    Try Demo Mode
+                  </button>
                 </div>
               )}
             </div>

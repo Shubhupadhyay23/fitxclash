@@ -45,6 +45,8 @@ export function CoachScreen() {
   const [formFeedback, setFormFeedback] = useState<string>("Initializing camera...");
   const [formValid, setFormValid] = useState(true);
   const [isCameraReady, setIsCameraReady] = useState(false);
+  const [demoMode, setDemoMode] = useState(false);
+  const [cameraError, setCameraError] = useState<string | null>(null);
   
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -64,13 +66,27 @@ export function CoachScreen() {
     setIsActive(false);
     setSelectedExercise(null);
     setIsCameraReady(false);
+    setDemoMode(false);
+    setCameraError(null);
     
     // Stop all video tracks
     if (videoRef.current?.srcObject) {
       const stream = videoRef.current.srcObject as MediaStream;
       stream.getTracks().forEach(track => track.stop());
+      videoRef.current.srcObject = null;
+    }
+    if (videoRef.current) {
+      videoRef.current.src = "";
     }
   };
+
+  const startDemoMode = () => {
+    setDemoMode(true);
+    setCameraError(null);
+    setIsCameraReady(true);
+    setFormFeedback("Demo Mode Active: Tracking pre-recorded session.");
+  };
+ Houses:
 
   // Warm up CV detector
   useEffect(() => {
@@ -86,17 +102,51 @@ export function CoachScreen() {
     const startCV = async () => {
         if (!videoRef.current || !canvasRef.current) return;
         
+        if (demoMode) {
+          console.log("🎬 Starting Demo Mode...");
+          videoRef.current.srcObject = null;
+          // Use a high-quality fitness demo video
+          videoRef.current.src = "https://v.ftmcdn.net/06/18/88/6188827/v1.mp4"; 
+          videoRef.current.loop = true;
+          
+          await new Promise((resolve) => {
+            if (videoRef.current) {
+              videoRef.current.oncanplay = resolve;
+            }
+          });
+          
+          const exercise = exercises.find(e => e.id === selectedExercise);
+          detectorRef.current = new CVDetector();
+          await detectorRef.current.initialize(videoRef.current, canvasRef.current);
+          detectorRef.current.setFormRules(exercise?.formRules || {}, selectedExercise);
+          detectorRef.current.setRepCallback(setReps);
+          detectorRef.current.startDetection();
+          setIsCameraReady(true);
+          return;
+        }
+
         try {
+            setCameraError(null);
             console.log("🎥 Starting Coach CV session...");
             if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
                 throw new Error("Your browser does not support camera access.");
             }
 
-            // Get webcam stream
+            // Get webcam stream with robust fallbacks
             console.log("🎥 Requesting camera stream...");
-            const stream = await navigator.mediaDevices.getUserMedia({ 
-                video: { width: 640, height: 480 } 
-            });
+            let stream;
+            try {
+              stream = await navigator.mediaDevices.getUserMedia({ 
+                  video: { 
+                    width: { ideal: 640 }, 
+                    height: { ideal: 480 },
+                    facingMode: "user"
+                  } 
+              });
+            } catch (inner) {
+              console.warn("⚠️ Strict constraints failed, trying auto-constraints...");
+              stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            }
             
             if (isCancelled) {
               stream.getTracks().forEach(t => t.stop());
@@ -113,7 +163,7 @@ export function CoachScreen() {
                   else videoRef.current.onloadedmetadata = resolve;
                 }
               }),
-              new Promise((_, reject) => setTimeout(() => reject(new Error("Video timeout")), 8000))
+              new Promise((_, reject) => setTimeout(() => reject(new Error("Camera timed out. Please refresh.")), 8000))
             ]);
 
             if (isCancelled) return;
@@ -141,16 +191,21 @@ export function CoachScreen() {
 
             detectorRef.current.setDetectionUpdateCallback((result) => {
                 setFormValid(result.formValid);
-                if (result.formValid && result.landmarks) {
-                  // Keep showing positive message
-                }
             });
 
             detectorRef.current.startDetection();
             setIsCameraReady(true);
         } catch (err: any) {
             console.error("❌ Coach CV Error:", err);
-            const errorMessage = err?.message || (typeof err === 'string' ? err : JSON.stringify(err)) || "Unknown camera error";
+            let errorMessage = err?.message || "Unknown camera error";
+            
+            if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
+              errorMessage = "Camera access denied. Please enable camera in browser settings and MacOS System Settings > Privacy > Camera.";
+            } else if (err.name === "NotFoundError" || err.name === "DevicesNotFoundError") {
+              errorMessage = "No camera found. Please connect a webcam.";
+            }
+
+            setCameraError(errorMessage);
             setFormFeedback(`Camera Error: ${errorMessage}`);
             setIsCameraReady(false);
         }
@@ -169,7 +224,7 @@ export function CoachScreen() {
             stream.getTracks().forEach(track => track.stop());
         }
     };
-  }, [isActive, selectedExercise]);
+  }, [isActive, selectedExercise, demoMode]);
 
   if (isActive && selectedExercise) {
     const exercise = exercises.find((e) => e.id === selectedExercise);
@@ -196,24 +251,52 @@ export function CoachScreen() {
         <div className="flex-1 grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-6 p-6 overflow-hidden">
           {/* Main Visual Arena */}
           <div className="relative rounded-[32px] bg-neutral-900 border border-white/10 overflow-hidden shadow-2xl flex items-center justify-center">
-             {!isCameraReady ? (
+             {!isCameraReady && !cameraError ? (
                <div className="text-center animate-pulse z-10">
                   <Camera className="w-16 h-16 text-cyan-500/40 mx-auto mb-4" />
                   <p className="text-neutral-500 audiowide-regular">Syncing Optical Sensors...</p>
                </div>
              ) : null}
+
+             {cameraError && (
+               <div className="absolute inset-0 z-[60] bg-black/90 flex flex-col items-center justify-center p-8 text-center">
+                  <XCircle className="w-16 h-16 text-red-500 mb-6" />
+                  <h3 className="text-2xl font-bold mb-4 text-white">Camera Access Failed</h3>
+                  <p className="text-neutral-400 mb-8 max-w-md leading-relaxed">
+                    {cameraError}
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4">
+                     <button 
+                       onClick={() => window.location.reload()}
+                       className="px-8 py-3 rounded-xl bg-white text-black font-bold hover:bg-neutral-200 transition-all"
+                     >
+                        Retry Camera
+                     </button>
+                     <button 
+                       onClick={startDemoMode}
+                       className="px-8 py-3 rounded-xl bg-cyan-600 text-white font-bold hover:bg-cyan-500 transition-all shadow-lg shadow-cyan-500/20"
+                     >
+                        Start Demo Mode
+                     </button>
+                  </div>
+                  <p className="mt-8 text-[10px] uppercase tracking-widest text-neutral-500">
+                    Use Demo Mode to showcase tracking without a live camera
+                  </p>
+               </div>
+             )}
              
              <video 
                 ref={videoRef} 
-                className={`w-full h-full object-cover transform scale-x-[-1] absolute inset-0 ${isCameraReady ? 'opacity-100' : 'opacity-0'}`} 
+                className={`w-full h-full object-cover transform ${demoMode ? '' : 'scale-x-[-1]'} absolute inset-0 ${isCameraReady ? 'opacity-100' : 'opacity-0'}`} 
                 autoPlay 
                 playsInline 
                 muted 
              />
              <canvas 
                 ref={canvasRef} 
-                className="absolute inset-0 w-full h-full object-contain pointer-events-none transform scale-x-[-1] z-10" 
+                className={`absolute inset-0 w-full h-full object-contain pointer-events-none transform ${demoMode ? '' : 'scale-x-[-1]'} z-10`} 
              />
+ Houses:
 
              {/* Form Alert Overlay */}
              {!formValid && isCameraReady && (

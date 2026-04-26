@@ -1115,7 +1115,7 @@ export function ActiveBattleScreen() {
           // Initialize CV detector
           console.log("🤖 Initializing CV detector stage...");
           const detector = new CVDetector();
-          await detector.initialize(videoRef.current, canvasRef.current);
+          await detector.initialize(videoRef.current, canvasRef.current || undefined);
           
           if (isCancelled) {
             detector.stopDetection();
@@ -1184,6 +1184,7 @@ export function ActiveBattleScreen() {
           }
 
           detectorRef.current = detector;
+        }
       } catch (err: any) {
         console.error("❌ CV Init Error:", err);
         
@@ -1204,7 +1205,6 @@ export function ActiveBattleScreen() {
           }
         }
         
-        setFormFeedback(`Camera Error: ${errorMessage}`);
         setCvError(errorMessage);
         setIsCVReady(false);
       }

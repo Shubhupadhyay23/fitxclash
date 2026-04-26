@@ -1,0 +1,26 @@
+Retrieving project…
+Deploying ubhupendra90-1203s-projects/frontend
+Uploading [--------------------] (0.0B/69B)
+Uploading [====================] (69.0B/69B)
+Inspect: https://vercel.com/ubhupendra90-1203s-projects/frontend/D6Cg12ivAyeXtWxcYkQytpqGoPHY [4s]
+Production: https://frontend-8ej9wtb53-ubhupendra90-1203s-projects.vercel.app [4s]
+https://frontend-8ej9wtb53-ubhupendra90-1203s-projects.vercel.appBuilding...
+Building...
+Building: Running build in Washington, D.C., USA (East) – iad1
+Building: Build machine configuration: 2 cores, 8 GB
+Building: Retrieving list of deployment files...
+Building: Previous build caches not available.
+Building: Downloading 143 deployment files...
+Building: Running "vercel build"
+Building: Vercel CLI 51.6.1
+Building: Running "install" command: `npm install`...
+Building: added 450 packages, and audited 451 packages in 22s
+Building: 84 packages are looking for funding
+Building: run `npm fund` for details
+Building: 14 vulnerabilities (5 moderate, 8 high, 1 critical)
+Building: To address all issues, run:
+Building: npm audit fix
+Building: Run `npm audit` for details.
+Building: > fitforge-frontend@0.0.0 build
+Building: > tsc -b && vite build
+Error: Command "npm run build" exited with 2

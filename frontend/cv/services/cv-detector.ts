@@ -34,6 +34,33 @@ export class CVDetector {
   private canvasElement: HTMLCanvasElement | null = null;
   private drawingUtils: DrawingUtils | null = null;
   private animationFrameId: number | null = null;
+  private isDetecting: boolean = false;
+  private formRules: FormRules = {};
+  private currentExercise: string = "pushups";
+  private onRepDetected: RepDetectedCallback | null = null;
+  private onFormError: FormErrorCallback | null = null;
+  private onDetectionUpdate: DetectionUpdateCallback | null = null;
+  
+  private repState: RepDetectionState = {
+    repCount: 0,
+    isDown: false,
+    lastAngle: 0
+  };
+  
+  private holdState: StaticHoldState = {
+    isStable: false,
+    duration: 0,
+    startTime: null
+  };
+
+  private hipPositionHistory: number[] = [];
+  private lastRepTime: number = 0;
+  private bottomReachedTime: number = 0;
+  private stabilityThreshold: number = 0.05;
+  private STABILITY_HISTORY_SIZE: number = 5;
+  private MAX_HIP_MOVEMENT_PER_FRAME: number = 0.1;
+  private MIN_BOTTOM_TIME_MS: number = 400;
+  private MIN_REP_INTERVAL_MS: number = 1000;
   
   /**
    * Pre-warm the shared PoseLandmarker to speed up first use
